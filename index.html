@@ -1848,8 +1848,28 @@
             </div>
           </div>
           <p class="hobby-desc">
-            Suite modular y avanzada de automatización y optimización profunda para sistemas GNU/Linux. Cuenta con instalador automatizado para desplegar y registrar aplicaciones tarball en <code>/opt</code> con accesos de escritorio XDG y lanzadores en <code>/usr/local/bin</code>, optimizador de <strong>Audio Hi-Fi Bit-Perfect</strong> (hasta 192 kHz / 32-bit) y motor de <strong>Audio Espacial Nativo PipeWire</strong> con 0 ms de latencia en C/SPA (convolución HRIR, Bauer crossfeed y ecualización paramétrica de 10 bandas), <strong>parche de mandos Bluetooth/XInput</strong> para Steam/Proton/Lutris, y automatización de VirtualBox con compilación y firma de módulos de kernel para <strong>UEFI Secure Boot</strong>.
+            Suite modular y avanzada de automatización, parcheo del kernel/drivers y optimización profunda para sistemas GNU/Linux (Fedora, Gentoo y entornos XDG). Integra módulos especializados para gaming y subsistemas multimedia de bajo nivel:
           </p>
+
+          <div style="margin: 1.25rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+            <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: 4px; padding: 1.25rem; transition: border-color 0.2s;">
+              <div style="font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+                <span style="color: var(--teal); font-size: 16px;">🎮</span> Parche de Mandos Bluetooth &amp; USB
+              </div>
+              <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+                Resuelve la detección y compatibilidad de mandos Sony (DualShock 4 / DualSense) en Wine/Proton (<code>winebus.sys</code>) inyectando <code>PROTON_SONY_HIDRAW_XINPUT=1</code> en <code>environment.d</code> y en la sesión activa de <strong>systemd</strong>, parcheando automáticamente runners en <strong>Lutris</strong> y <strong>Steam</strong>. Asegura reglas <strong>udev</strong> (<code>steam-devices</code>) para <code>/dev/uinput</code> y desactiva ERTM (<code>disable_ertm=1</code>) en el kernel para erradicar desconexiones de mandos Xbox por Bluetooth.
+              </p>
+            </div>
+
+            <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: 4px; padding: 1.25rem; transition: border-color 0.2s;">
+              <div style="font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+                <span style="color: var(--blue); font-size: 16px;">🎧</span> Audio Hi-Fi &amp; Espacial (PipeWire / WirePlumber)
+              </div>
+              <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+                Optimización de servicios de <strong>PipeWire (1.6+)</strong> y <strong>WirePlumber (0.5+)</strong> con conmutación dinámica de frecuencia <em>Bit-Perfect</em> (44.1 a 192 kHz, 24/32-bit <code>S32LE</code>), remuestreador audiófilo <code>libsoxr</code> (nivel 14) y prioridad de tiempo real (RTKit). Incorpora <strong>Audio Espacial Nativo en C/SPA</strong> (0 ms de latencia) vía <code>libpipewire-module-filter-chain</code> con ecualizador paramétrico de 10 bandas, matriz Mid/Side y Bauer crossfeed para eliminar fatiga acústica.
+              </p>
+            </div>
+          </div>
 
           <!-- Slideshow centrado y responsivo -->
           <div style="margin: 1.5rem auto; max-width: 820px; width: 100%; display: flex; justify-content: center;">
@@ -1871,13 +1891,17 @@
 
           <div class="tech-row">
             <span class="tech-tag">Shell (Bash)</span>
+            <span class="tech-tag">PipeWire 1.6+</span>
+            <span class="tech-tag">WirePlumber</span>
+            <span class="tech-tag">Audio Bit-Perfect (192kHz)</span>
+            <span class="tech-tag">Audio Espacial C/SPA</span>
+            <span class="tech-tag">Bluetooth LDAC / aptX</span>
+            <span class="tech-tag">Mandos Bluetooth / XInput</span>
+            <span class="tech-tag">Proton / Lutris / Steam</span>
+            <span class="tech-tag">Systemd &amp; udev</span>
             <span class="tech-tag">Fedora Linux</span>
             <span class="tech-tag">Gentoo</span>
-            <span class="tech-tag">PipeWire (Bit-Perfect)</span>
-            <span class="tech-tag">Audio Espacial C/SPA</span>
-            <span class="tech-tag">Proton / Wine (XInput)</span>
-            <span class="tech-tag">UEFI Secure Boot</span>
-            <span class="tech-tag">Kernel akmods</span>
+            <span class="tech-tag">UEFI Secure Boot (akmods)</span>
             <span class="tech-tag">Tarball Manager</span>
           </div>
           <div style="margin-top:12px;">
