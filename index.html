@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portafolio de Ismael</title>
+  <link rel="icon" type="image/x-icon" href="./player.ico">
+  <link rel="shortcut icon" href="./player.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -353,6 +355,30 @@
       background: var(--accent-dim);
       color: var(--accent);
       border: 1px solid var(--accent-border);
+    }
+
+    .exp-detail-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent-border);
+      padding: 6px 14px;
+      border-radius: 3px;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+
+    .exp-detail-link:hover {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+      transform: translateY(-1px);
     }
 
     .exp-company {
@@ -1374,23 +1400,17 @@
               Diseñado con compatibilidad nativa y transparente tanto en entornos <strong>GNU/Linux</strong> como en <strong>Windows</strong>, abstrayendo gestión de procesos concurrentes, normalización de rutas y automatización del sistema.
             </p>
 
-            <!-- Slideshow de PipelineBooks -->
-            <div class="proj-img-wrap slideshow-wrap"
-              style="aspect-ratio:16/9;border-radius:4px;margin:1.4rem 0 1.25rem;border:1px solid var(--border);"
-              data-slideshow="pipelinebooks" data-project="PipelineBooks">
-              <div class="slide-track" id="track-pipelinebooks"></div>
-              <div class="slide-overlay">
-                <div class="slide-overlay-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
-                  </svg>
-                </div>
-              </div>
-              <div class="slide-dots" id="dots-pipelinebooks"></div>
-              <div class="slide-counter" id="counter-pipelinebooks"></div>
+            <div style="margin-top:1.25rem;">
+              <a href="#pipelinebooks" class="exp-detail-link">
+                <span>Ver capturas y detalles del proyecto</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <polyline points="19 12 12 19 5 12"></polyline>
+                </svg>
+              </a>
             </div>
 
-            <div class="tech-row">
+            <div class="tech-row" style="margin-top:1.25rem;">
               <span class="tech-tag">Python</span>
               <span class="tech-tag">Multiplataforma (Windows / Linux)</span>
               <span class="tech-tag">Playwright</span>
@@ -1585,6 +1605,49 @@
           </div>
         </div>
 
+      </div>
+
+      <!-- PipelineBooks — featured con capturas -->
+      <div class="proj-block featured-block" id="pipelinebooks" style="margin-top:1px;">
+        <div class="proj-img-wrap slideshow-wrap"
+          style="aspect-ratio:21/9;border-radius:0;border-bottom:1px solid var(--border);" data-slideshow="pipelinebooks"
+          data-project="PipelineBooks">
+          <div class="slide-track" id="track-pipelinebooks"></div>
+          <div class="slide-overlay">
+            <div class="slide-overlay-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+              </svg>
+            </div>
+          </div>
+          <div class="slide-dots" id="dots-pipelinebooks"></div>
+          <div class="slide-counter" id="counter-pipelinebooks"></div>
+        </div>
+        <div class="proj-block-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+            <div class="proj-number">04</div>
+            <span style="font-family:var(--font-mono);font-size:10px;color:var(--teal);letter-spacing:0.06em;border:1px solid var(--teal-border);padding:3px 8px;border-radius:2px;background:var(--teal-dim);text-transform:uppercase;">Multiplataforma · Windows & Linux</span>
+          </div>
+          <div class="proj-name">PipelineBooks</div>
+          <div class="proj-period">2026 — Presente &nbsp;&middot;&nbsp; En desarrollo &nbsp;&middot;&nbsp; Traducción Asistida por IA, Auditoría & Maquetación Editorial</div>
+          <p class="proj-desc">
+            Ecosistema integral y multiplataforma (Windows y Linux) para la traducción editorial asistida por IA (Zero-API Cost vía Playwright y CDP), auditoría ortotipográfica rigurosa de 8 fases con LanguageTool local, maquetación editorial automatizada (EPUB v3.0 e impresión) y distribución multicanal hacia Amazon KDP, Draft2Digital y StreetLib. Haz clic en las capturas para explorarlas en pantalla completa.
+          </p>
+          <div class="tech-row">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">Multiplataforma (Windows / Linux)</span>
+            <span class="tech-tag">Playwright</span>
+            <span class="tech-tag">CDP</span>
+            <span class="tech-tag">LanguageTool 6.5</span>
+            <span class="tech-tag">EPUB v3.0</span>
+            <span class="tech-tag">EbookLib</span>
+            <span class="tech-tag">BeautifulSoup4</span>
+            <span class="tech-tag">Pydantic</span>
+            <span class="tech-tag">IA / Gemini</span>
+            <span class="tech-tag">Amazon KDP</span>
+            <span class="tech-tag">Draft2Digital</span>
+          </div>
+        </div>
       </div>
     </section>
 
