@@ -654,6 +654,32 @@
       background: var(--teal-dim);
     }
 
+    .footer-contact-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    .footer-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      border: 1px solid var(--accent-border);
+      padding: 10px 20px;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .footer-link-btn:hover {
+      background: var(--accent-dim);
+    }
+
     .footer-copy {
       font-family: var(--font-mono);
       font-size: 10px;
@@ -730,6 +756,10 @@
 
       footer {
         grid-template-columns: 1fr;
+      }
+
+      .footer-contact-actions {
+        align-items: flex-start;
       }
 
       .nav-links {
@@ -1288,6 +1318,12 @@
             <span class="contact-label">Email</span>
             <span class="contact-value">
               <a href="mailto:ismaelgaspcruz@outlook.com">ismaelgaspcruz@outlook.com</a>
+            </span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-label">LinkedIn</span>
+            <span class="contact-value">
+              <a href="https://www.linkedin.com/in/ismael-gaspar-cruz-932b93389/" target="_blank" rel="noopener">ismael-gaspar-cruz</a>
             </span>
           </div>
           <div class="contact-row">
@@ -2018,8 +2054,16 @@
           y mantenimiento a hardware.
         </p>
       </div>
-      <div>
+      <div class="footer-contact-actions">
         <a class="footer-email" href="mailto:ismaelgaspcruz@outlook.com">ismaelgaspcruz@outlook.com</a>
+        <a class="footer-link-btn" href="https://www.linkedin.com/in/ismael-gaspar-cruz-932b93389/" target="_blank" rel="noopener">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+            <rect x="2" y="9" width="4" height="12"></rect>
+            <circle cx="4" cy="4" r="2"></circle>
+          </svg>
+          <span>LinkedIn</span>
+        </a>
       </div>
       <p class="footer-copy">Ismael Gaspar Cruz &nbsp;&mdash;&nbsp; Orizaba, Veracruz, Mexico &nbsp;&mdash;&nbsp; 2026
       </p>
