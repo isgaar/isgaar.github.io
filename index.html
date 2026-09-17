@@ -1358,6 +1358,57 @@
 
         <div class="exp-item">
           <div class="exp-meta">
+            <div class="exp-period">2026<br>Actualmente</div>
+            <span class="exp-badge badge-current">En desarrollo</span>
+          </div>
+          <div>
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:4px;">
+              <div class="exp-company">PipelineBooks</div>
+              <span style="font-family:var(--font-mono);font-size:10px;color:var(--teal);letter-spacing:0.06em;border:1px solid var(--teal-border);padding:3px 8px;border-radius:2px;background:var(--teal-dim);text-transform:uppercase;">Multiplataforma &middot; Windows & Linux</span>
+            </div>
+            <div class="exp-role">Desarrollador de Software &amp; Arquitectura de Pipeline</div>
+            <p class="exp-desc">
+              Ecosistema integral y automatizado para la traducción literaria asistida por IA (Zero-API Cost mediante automatización de navegador con Playwright y Chrome DevTools Protocol), auditoría ortotipográfica rigurosa de 8 fases con LanguageTool en servidor local, maquetación editorial automatizada (EPUB v3.0 e impresión) y distribución multicanal hacia Amazon KDP, Draft2Digital y StreetLib.
+            </p>
+            <p class="exp-desc" style="margin-top:0.6rem;color:var(--text-muted);font-size:13px;">
+              Diseñado con compatibilidad nativa y transparente tanto en entornos <strong>GNU/Linux</strong> como en <strong>Windows</strong>, abstrayendo gestión de procesos concurrentes, normalización de rutas y automatización del sistema.
+            </p>
+
+            <!-- Slideshow de PipelineBooks -->
+            <div class="proj-img-wrap slideshow-wrap"
+              style="aspect-ratio:16/9;border-radius:4px;margin:1.4rem 0 1.25rem;border:1px solid var(--border);"
+              data-slideshow="pipelinebooks" data-project="PipelineBooks">
+              <div class="slide-track" id="track-pipelinebooks"></div>
+              <div class="slide-overlay">
+                <div class="slide-overlay-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                  </svg>
+                </div>
+              </div>
+              <div class="slide-dots" id="dots-pipelinebooks"></div>
+              <div class="slide-counter" id="counter-pipelinebooks"></div>
+            </div>
+
+            <div class="tech-row">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">Multiplataforma (Windows / Linux)</span>
+              <span class="tech-tag">Playwright</span>
+              <span class="tech-tag">CDP</span>
+              <span class="tech-tag">LanguageTool 6.5</span>
+              <span class="tech-tag">EPUB v3.0</span>
+              <span class="tech-tag">EbookLib</span>
+              <span class="tech-tag">BeautifulSoup4</span>
+              <span class="tech-tag">Pydantic</span>
+              <span class="tech-tag">IA / Gemini</span>
+              <span class="tech-tag">Amazon KDP</span>
+              <span class="tech-tag">Draft2Digital</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-meta">
             <div class="exp-period">Ene 2026<br>Abr 2026</div>
             <span class="exp-badge badge-past">Finalizado</span>
           </div>
@@ -1862,6 +1913,19 @@
 
         // ── Definición de proyectos y sus imágenes (ordenadas y mezcladas) ──
         const projects = {
+          pipelinebooks: {
+            name: 'PipelineBooks',
+            images: [
+              './src/pipelinebooks-screensho1.png',
+              './src/pipelinebooks-screensho2.png',
+              './src/pipelinebooks-screensho3.png',
+              './src/pipelinebooks-screensho4.png',
+              './src/pipelinebooks-screensho5.png',
+              './src/pipelinebooks-screensho6.png',
+              './src/pipelinebooks-screensho7.png',
+              './src/pipelinebooks-screensho8.png',
+            ]
+          },
           atomos: {
             name: 'Átomos Virtuales',
             images: shuffle([
