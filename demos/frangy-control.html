@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Frangy Control · Sistema Administrativo Taller y Llantera</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/icon.svg">
+
+  <!-- Tipografía Inter y Bootstrap 5 idéntico a Frangy Control -->
+  <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+    :root {
+      --dashboard-bg: #f8f9fa;
+      --dashboard-surface: #ffffff;
+      --dashboard-card: #ffffff;
+      --dashboard-border: #e9ecef;
+      --dashboard-text: #212529;
+      --dashboard-muted: #6c757d;
+      --dashboard-primary: #0d6efd;
+      --dashboard-accent-red: #e02424;
+      --dashboard-accent-green: #057a55;
+      --dashboard-accent-amber: #d97706;
+      --dashboard-accent-blue: #1c64f2;
+    }
+
+    [data-theme="dark"] {
+      --dashboard-bg: #12141a;
+      --dashboard-surface: #181b23;
+      --dashboard-card: #1f232e;
+      --dashboard-border: rgba(255, 255, 255, 0.1);
+      --dashboard-text: #f8f9fa;
+      --dashboard-muted: #9ca3af;
+      --dashboard-primary: #3b82f6;
+    }
+
+    body.dashboard-body {
+      font-family: 'inter', sans-serif !important;
+      background-color: var(--dashboard-bg);
+      color: var(--dashboard-text);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Barra superior de retorno */
+    .top-return-bar {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 6px 1.5rem;
+      font-size: 11.5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 1000;
+    }
+
+    .top-return-bar a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .top-return-bar a:hover {
+      text-decoration: underline;
+    }
+
+    /* Layout Frangy Control */
+    .dashboard-app {
+      display: flex;
+      flex: 1;
+      min-height: calc(100vh - 31px);
+    }
+
+    /* Sidebar idéntico a la captura */
+    .dashboard-sidebar {
+      width: 260px;
+      background: var(--dashboard-surface);
+      border-right: 1px solid var(--dashboard-border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    .dashboard-sidebar__header {
+      padding: 1.25rem 1.25rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--dashboard-border);
+    }
+
+    .brand-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-logo-img {
+      height: 38px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .brand-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-weight: 800;
+      font-size: 1.1rem;
+      line-height: 1.1;
+      color: var(--dashboard-text);
+      letter-spacing: -0.02em;
+    }
+
+    .brand-subtitle {
+      font-size: 0.72rem;
+      color: var(--dashboard-muted);
+      line-height: 1.2;
+      margin-top: 2px;
+    }
+
+    .sidebar-collapse-btn {
+      background: var(--dashboard-bg);
+      border: 1px solid var(--dashboard-border);
+      border-radius: 6px;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--dashboard-muted);
+      cursor: pointer;
+    }
+
+    .dashboard-sidebar__nav {
+      padding: 1rem 0.75rem;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .dashboard-sidebar__section {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: var(--dashboard-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.75rem 0.75rem 0.35rem;
+      margin-top: 0.5rem;
+    }
+
+    .dashboard-sidebar__section:first-child {
+      margin-top: 0;
+    }
+
+    .dashboard-sidebar__link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0.55rem 0.75rem;
+      border-radius: 8px;
+      color: var(--dashboard-text);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 3px;
+      transition: all 0.15s ease-in-out;
+      cursor: pointer;
+    }
+
+    .dashboard-sidebar__link:hover {
+      background-color: rgba(13, 110, 253, 0.06);
+      color: var(--dashboard-primary);
+    }
+
+    .dashboard-sidebar__link.is-active {
+      background-color: #fde8e8;
+      color: #e02424;
+    }
+
+    [data-theme="dark"] .dashboard-sidebar__link.is-active {
+      background-color: rgba(224, 36, 36, 0.18);
+      color: #f98080;
+    }
+
+    .dashboard-sidebar__link i {
+      font-size: 16px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .dashboard-sidebar__link .subtext {
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--dashboard-muted);
+      display: block;
+    }
+
+    .dashboard-sidebar__footer {
+      padding: 0.75rem 1.25rem;
+      border-top: 1px solid var(--dashboard-border);
+      font-size: 0.75rem;
+      color: var(--dashboard-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Área de Contenido Principal */
+    .dashboard-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Navbar superior Frangy */
+    .dashboard-topbar {
+      background: var(--dashboard-surface);
+      border-bottom: 1px solid var(--dashboard-border);
+      padding: 0.65rem 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .topbar-breadcrumb {
+      font-size: 0.82rem;
+      color: var(--dashboard-muted);
+    }
+
+    .topbar-breadcrumb strong {
+      color: var(--dashboard-text);
+      font-size: 0.95rem;
+      display: block;
+      line-height: 1.1;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .theme-toggle-btn {
+      background: var(--dashboard-bg);
+      border: 1px solid var(--dashboard-border);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--dashboard-text);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 10px 4px 6px;
+      border-radius: 24px;
+      background: var(--dashboard-bg);
+      border: 1px solid var(--dashboard-border);
+      cursor: pointer;
+    }
+
+    .user-avatar-badge {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #dc2626;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .user-meta {
+      line-height: 1.15;
+    }
+
+    .user-name {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--dashboard-text);
+    }
+
+    .user-role {
+      font-size: 0.7rem;
+      color: var(--dashboard-muted);
+    }
+
+    /* Contenedor de sub-vistas */
+    .dashboard-content {
+      padding: 1.5rem 2rem;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .subview {
+      display: none;
+      animation: fadeIn 0.15s ease-out;
+    }
+
+    .subview.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(3px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Resource Hero (idéntico al repo) */
+    .resource-hero {
+      background: var(--dashboard-surface);
+      border: 1px solid var(--dashboard-border);
+      border-radius: 12px;
+      padding: 1.4rem 1.75rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .resource-hero__eyebrow {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--dashboard-muted);
+    }
+
+    .resource-hero__title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--dashboard-text);
+      margin: 2px 0 4px;
+    }
+
+    .resource-hero__actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Tarjetas KPI de Frangy con barra inferior de color */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .frangy-kpi-card {
+      background: var(--dashboard-card);
+      border: 1px solid var(--dashboard-border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .frangy-kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    .frangy-kpi-body {
+      padding: 1.1rem 1.25rem;
+    }
+
+    .frangy-kpi-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--dashboard-muted);
+      margin-bottom: 4px;
+    }
+
+    .frangy-kpi-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--dashboard-text);
+      margin-bottom: 4px;
+    }
+
+    .frangy-kpi-copy {
+      font-size: 0.75rem;
+      color: var(--dashboard-muted);
+      margin: 0;
+    }
+
+    .frangy-kpi-bar {
+      height: 4px;
+      width: 100%;
+    }
+
+    /* Gráficos y Tablas */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 992px) {
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .chart-card {
+      background: var(--dashboard-card);
+      border: 1px solid var(--dashboard-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+
+    .chart-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .chart-card-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--dashboard-text);
+      margin: 2px 0 0;
+    }
+
+    /* Filtros y Tablas */
+    .filter-bar {
+      background: var(--dashboard-card);
+      border: 1px solid var(--dashboard-border);
+      border-radius: 10px;
+      padding: 0.85rem 1.25rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-search-input {
+      flex: 1;
+      min-width: 220px;
+      height: 38px;
+      border: 1px solid var(--dashboard-border);
+      border-radius: 6px;
+      padding: 0 12px;
+      font-size: 0.85rem;
+      background: var(--dashboard-bg);
+      color: var(--dashboard-text);
+      outline: none;
+    }
+
+    .filter-select {
+      height: 38px;
+      border: 1px solid var(--dashboard-border);
+      border-radius: 6px;
+      padding: 0 10px;
+      font-size: 0.85rem;
+      background: var(--dashboard-bg);
+      color: var(--dashboard-text);
+      outline: none;
+    }
+
+    .table-container {
+      background: var(--dashboard-card);
+      border: 1px solid var(--dashboard-border);
+      border-radius: 10px;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+    }
+
+    .frangy-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .frangy-table th {
+      background: var(--dashboard-bg);
+      padding: 10px 14px;
+      font-weight: 800;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--dashboard-muted);
+      border-bottom: 1px solid var(--dashboard-border);
+      text-align: left;
+    }
+
+    .frangy-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--dashboard-border);
+      color: var(--dashboard-text);
+      vertical-align: middle;
+    }
+
+    .frangy-table tr:hover td {
+      background: rgba(13, 110, 253, 0.03);
+    }
+
+    .badge-orden {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .badge-en-proceso {
+      background: rgba(13, 110, 253, 0.12);
+      color: #0d6efd;
+      border: 1px solid rgba(13, 110, 253, 0.3);
+    }
+
+    .badge-finalizada {
+      background: rgba(5, 122, 85, 0.12);
+      color: #057a55;
+      border: 1px solid rgba(5, 122, 85, 0.3);
+    }
+
+    .badge-cancelada {
+      background: rgba(224, 36, 36, 0.12);
+      color: #e02424;
+      border: 1px solid rgba(224, 36, 36, 0.3);
+    }
+
+    /* Modal Ticket */
+    .frangy-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 1rem;
+    }
+
+    .frangy-modal-backdrop.open {
+      display: flex;
+    }
+
+    .frangy-ticket-window {
+      background: var(--dashboard-surface);
+      border: 1px solid var(--dashboard-border);
+      border-radius: 12px;
+      max-width: 480px;
+      width: 100%;
+      padding: 1.5rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+
+<body class="dashboard-body">
+
+  <!-- Barra superior de retorno -->
+  <div class="top-return-bar">
+    <div>
+      <span>Vista Previa Fiel &middot; Repositorio Oficial: <strong>frangyControl</strong></span>
+    </div>
+    <div>
+      <a href="../index.html"><i class="fas fa-arrow-left me-1"></i> Volver al Portafolio</a>
+    </div>
+  </div>
+
+  <div class="dashboard-app">
+
+    <!-- Sidebar idéntico a Frangy Control -->
+    <aside class="dashboard-sidebar">
+      <div class="dashboard-sidebar__header">
+        <a href="#" class="brand-box">
+          <img src="./assets/franlogo.png" alt="Frangy" class="brand-logo-img">
+          <div class="brand-info">
+            <span class="brand-title">Frangy</span>
+            <span class="brand-subtitle">Centro de servicio y operación</span>
+          </div>
+        </a>
+        <button class="sidebar-collapse-btn" title="Colapsar menú">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+      </div>
+
+      <nav class="dashboard-sidebar__nav">
+        <!-- GENERAL -->
+        <div class="dashboard-sidebar__section">GENERAL</div>
+        <a class="dashboard-sidebar__link is-active" data-target="inicio" onclick="switchTab('inicio')">
+          <i class="fas fa-home" style="color:#e02424;"></i>
+          <div>
+            Inicio
+            <span class="subtext">Resumen operativo</span>
+          </div>
+        </a>
+        <a class="dashboard-sidebar__link" data-target="ordenes" onclick="switchTab('ordenes')">
+          <i class="fas fa-clipboard-list"></i>
+          <div>
+            Órdenes
+            <span class="subtext">Seguimiento del taller</span>
+          </div>
+        </a>
+        <a class="dashboard-sidebar__link" data-target="nueva-orden" onclick="switchTab('nueva-orden')">
+          <i class="fas fa-plus-circle"></i>
+          <div>
+            Nueva Orden
+            <span class="subtext">Recepción de auto</span>
+          </div>
+        </a>
+        <a class="dashboard-sidebar__link" data-target="clientes" onclick="switchTab('clientes')">
+          <i class="fas fa-users"></i>
+          <div>
+            Clientes
+            <span class="subtext">Directorio y atención</span>
+          </div>
+        </a>
+        <a class="dashboard-sidebar__link" data-target="cotizaciones" onclick="switchTab('cotizaciones')">
+          <i class="fas fa-file-invoice-dollar"></i>
+          <div>
+            Cotizaciones
+            <span class="subtext">Precios y propuestas</span>
+          </div>
+        </a>
+        <a class="dashboard-sidebar__link" data-target="inventario" onclick="switchTab('inventario')">
+          <i class="fas fa-boxes"></i>
+          <div>
+            Inventario
+            <span class="subtext">Almacén y llantas</span>
+          </div>
+        </a>
+
+        <!-- CATÁLOGOS -->
+        <div class="dashboard-sidebar__section">CATÁLOGOS</div>
+        <a class="dashboard-sidebar__link" data-target="catalogos" onclick="switchTab('catalogos')">
+          <i class="fas fa-layer-group"></i>
+          <div>
+            Catálogos
+            <span class="subtext">Marcas, tipos y servicios</span>
+          </div>
+        </a>
+
+        <!-- ADMINISTRACIÓN -->
+        <div class="dashboard-sidebar__section">ADMINISTRACIÓN</div>
+        <a class="dashboard-sidebar__link" data-target="reportes" onclick="switchTab('reportes')">
+          <i class="fas fa-chart-line"></i>
+          <div>
+            Reportes
+            <span class="subtext">Balances y PDF</span>
+          </div>
+        </a>
+        <a class="dashboard-sidebar__link" data-target="acerca" onclick="switchTab('acerca')">
+          <i class="fas fa-info-circle"></i>
+          <div>
+            Acerca
+            <span class="subtext">Créditos y versión</span>
+          </div>
+        </a>
+      </nav>
+
+      <div class="dashboard-sidebar__footer">
+        <span>Versión 2.0.14</span>
+        <i class="fas fa-shield-alt text-success" title="Sistema Seguro"></i>
+      </div>
+    </aside>
+
+    <!-- Contenedor Principal con Topbar y Subvistas -->
+    <div class="dashboard-main">
+
+      <!-- Topbar Frangy -->
+      <header class="dashboard-topbar">
+        <div class="topbar-breadcrumb">
+          <strong id="topbarPageTitle">Panel de control</strong>
+          <span>Frangy &middot; Operación Llantera y Taller</span>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="theme-toggle-btn" id="themeToggleBtn">
+            <i class="fas fa-moon"></i> Modo oscuro
+          </button>
+          <div class="user-pill" onclick="alert('Usuario: Developer (Administrador del taller).');">
+            <div class="user-avatar-badge">D</div>
+            <div class="user-meta">
+              <div class="user-name">Developer</div>
+              <div class="user-role">Administrador <i class="fas fa-chevron-down ms-1" style="font-size:9px;"></i></div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ══════════════════════════════════════════════════════════
+           SUB-VISTA 1: PANEL DE CONTROL (home.blade.php)
+           ══════════════════════════════════════════════════════════ -->
+      <main class="dashboard-content subview active" id="subview-inicio">
+        
+        <!-- Hero "Operación del taller" -->
+        <section class="resource-hero">
+          <div>
+            <span class="resource-hero__eyebrow">VISTA GENERAL</span>
+            <h1 class="resource-hero__title">Operación del taller</h1>
+            <p class="mb-0 text-muted" style="font-size:0.88rem;">
+              Consulta métricas clave, revisa órdenes recientes y entra rápido a los módulos más usados.
+            </p>
+          </div>
+          <div class="resource-hero__actions">
+            <button class="btn btn-light fw-bold" onclick="alert('Generando Reporte Operativo PDF...');">
+              <i class="fas fa-file-pdf text-danger me-1"></i> Reporte PDF
+            </button>
+            <button class="btn btn-primary fw-bold" onclick="switchTab('nueva-orden')">
+              <i class="fas fa-clipboard-list me-1"></i> Registrar orden
+            </button>
+            <button class="btn btn-outline-secondary fw-bold" onclick="switchTab('clientes')">
+              <i class="fas fa-user-plus me-1"></i> Registrar cliente
+            </button>
+          </div>
+        </section>
+
+        <!-- KPIs principales con barras de acento -->
+        <div class="kpi-row">
+          <div class="frangy-kpi-card" onclick="switchTab('ordenes')">
+            <div class="frangy-kpi-body">
+              <div class="frangy-kpi-label">ÓRDENES REGISTRADAS</div>
+              <div class="frangy-kpi-value">58</div>
+              <p class="frangy-kpi-copy">Histórico total del taller</p>
+            </div>
+            <div class="frangy-kpi-bar" style="background:#0d6efd;"></div>
+          </div>
+
+          <div class="frangy-kpi-card" onclick="switchTab('ordenes')">
+            <div class="frangy-kpi-body">
+              <div class="frangy-kpi-label">EN PROCESO</div>
+              <div class="frangy-kpi-value">12</div>
+              <p class="frangy-kpi-copy">Trabajo activo en rampa</p>
+            </div>
+            <div class="frangy-kpi-bar" style="background:#00bcd4;"></div>
+          </div>
+
+          <div class="frangy-kpi-card" onclick="switchTab('ordenes')">
+            <div class="frangy-kpi-body">
+              <div class="frangy-kpi-label">FINALIZADAS</div>
+              <div class="frangy-kpi-value">42</div>
+              <p class="frangy-kpi-copy">Órdenes entregadas y cobradas</p>
+            </div>
+            <div class="frangy-kpi-bar" style="background:#057a55;"></div>
+          </div>
+
+          <div class="frangy-kpi-card" onclick="switchTab('ordenes')">
+            <div class="frangy-kpi-body">
+              <div class="frangy-kpi-label">VENCIDAS</div>
+              <div class="frangy-kpi-value">2</div>
+              <p class="frangy-kpi-copy">Fecha de entrega reprogramada</p>
+            </div>
+            <div class="frangy-kpi-bar" style="background:#e02424;"></div>
+          </div>
+        </div>
+
+        <!-- Gráficas semanales y donut -->
+        <div class="charts-grid">
+          <!-- Gráfica de ingresos -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div>
+                <span class="resource-hero__eyebrow">GRÁFICA</span>
+                <div class="chart-card-title">Ingresos semanales</div>
+                <span style="font-size:0.75rem;color:var(--dashboard-muted);">Semana actual vs semana anterior</span>
+              </div>
+              <a href="#" style="font-size:0.78rem;font-weight:700;color:var(--dashboard-primary);text-decoration:none;" onclick="switchTab('reportes')">Ver reporte &rarr;</a>
+            </div>
+
+            <!-- Curva SVG de ingresos -->
+            <div style="height:210px;width:100%;position:relative;display:flex;align-items:flex-end;">
+              <svg viewBox="0 0 500 180" style="width:100%;height:100%;overflow:visible;">
+                <defs>
+                  <linearGradient id="curveFill" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#0d6efd" stop-opacity="0.25" />
+                    <stop offset="100%" stop-color="#0d6efd" stop-opacity="0.0" />
+                  </linearGradient>
+                </defs>
+                <!-- Líneas horizontales de guía -->
+                <line x1="0" y1="30" x2="500" y2="30" stroke="var(--dashboard-border)" stroke-dasharray="4" />
+                <line x1="0" y1="80" x2="500" y2="80" stroke="var(--dashboard-border)" stroke-dasharray="4" />
+                <line x1="0" y1="130" x2="500" y2="130" stroke="var(--dashboard-border)" stroke-dasharray="4" />
+                <!-- Área sombreada -->
+                <path d="M 10 140 Q 90 90, 160 110 T 320 50 T 490 30 L 490 170 L 10 170 Z" fill="url(#curveFill)" />
+                <!-- Línea continua semana actual -->
+                <path d="M 10 140 Q 90 90, 160 110 T 320 50 T 490 30" fill="none" stroke="#0d6efd" stroke-width="3" />
+                <!-- Puntos de datos -->
+                <circle cx="10" cy="140" r="4" fill="#0d6efd" />
+                <circle cx="160" cy="110" r="4" fill="#0d6efd" />
+                <circle cx="320" cy="50" r="4" fill="#0d6efd" />
+                <circle cx="490" cy="30" r="5" fill="#0d6efd" stroke="#ffffff" stroke-width="2" />
+              </svg>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--dashboard-muted);margin-top:8px;">
+              <span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span>
+            </div>
+            <div style="display:flex;gap:16px;margin-top:10px;font-size:0.75rem;">
+              <span style="color:#0d6efd;font-weight:700;"><i class="fas fa-circle me-1" style="font-size:8px;"></i> Esta semana: $48,600</span>
+              <span style="color:var(--dashboard-muted);"><i class="fas fa-circle me-1" style="font-size:8px;"></i> Semana anterior: $39,200</span>
+            </div>
+          </div>
+
+          <!-- Distribución de servicios (donut chart) -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div>
+                <span class="resource-hero__eyebrow">DISTRIBUCIÓN</span>
+                <div class="chart-card-title">Servicios por categoría</div>
+                <span style="font-size:0.75rem;color:var(--dashboard-muted);">Distribución del mes</span>
+              </div>
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:center;height:180px;">
+              <svg width="150" height="150" viewBox="0 0 42 42">
+                <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="var(--dashboard-border)" stroke-width="5"></circle>
+                <!-- Montaje/Llantas: 45% (azul) -->
+                <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#0d6efd" stroke-width="5" stroke-dasharray="45 55" stroke-dashoffset="25"></circle>
+                <!-- Alineación y balanceo: 30% (verde) -->
+                <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#057a55" stroke-width="5" stroke-dasharray="30 70" stroke-dashoffset="80"></circle>
+                <!-- Frenos/Mecánica: 25% (rojo/ámbar) -->
+                <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#e02424" stroke-width="5" stroke-dasharray="25 75" stroke-dashoffset="50"></circle>
+                <text x="50%" y="46%" dominant-baseline="middle" text-anchor="middle" font-size="6" font-weight="800" fill="var(--dashboard-text)">58</text>
+                <text x="50%" y="62%" dominant-baseline="middle" text-anchor="middle" font-size="3" fill="var(--dashboard-muted)">órdenes</text>
+              </svg>
+            </div>
+
+            <div style="font-size:0.75rem;display:flex;flex-direction:column;gap:4px;">
+              <div style="display:flex;justify-content:space-between;"><span style="color:#0d6efd;">&bull; Neumáticos y montaje</span><strong>45%</strong></div>
+              <div style="display:flex;justify-content:space-between;"><span style="color:#057a55;">&bull; Alineación y balanceo</span><strong>30%</strong></div>
+              <div style="display:flex;justify-content:space-between;"><span style="color:#e02424;">&bull; Frenos y suspensión</span><strong>25%</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla de Órdenes Recientes -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div>
+              <span class="resource-hero__eyebrow">ACTIVIDAD</span>
+              <div class="chart-card-title">Órdenes recientes en rampa</div>
+            </div>
+            <a href="#" style="font-size:0.78rem;font-weight:700;color:var(--dashboard-primary);text-decoration:none;" onclick="switchTab('ordenes')">Ver todas &rarr;</a>
+          </div>
+
+          <div class="table-container mb-0">
+            <table class="frangy-table">
+              <thead>
+                <tr>
+                  <th>FOLIO</th>
+                  <th>CLIENTE</th>
+                  <th>VEHÍCULO</th>
+                  <th>SERVICIO</th>
+                  <th>TOTAL</th>
+                  <th>ESTADO</th>
+                  <th>ACCIÓN</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong style="color:var(--dashboard-primary);">ORD-2026-0891</strong></td>
+                  <td>Carlos Méndez Torres</td>
+                  <td>Nissan Versa 2021 &middot; <span class="badge bg-light text-dark">YGM-452-A</span></td>
+                  <td>Cambio 4 Llantas 205/55 R16 + Alineación</td>
+                  <td><strong>$6,840.00</strong></td>
+                  <td><span class="badge-orden badge-en-proceso"><i class="fas fa-spinner fa-spin"></i> En proceso</span></td>
+                  <td><button class="btn btn-sm btn-outline-primary py-0" onclick="showTicketModal('ORD-2026-0891', 'Carlos Méndez Torres', 'Nissan Versa 2021', 'Cambio 4 Llantas + Alineación', '$6,840.00')"><i class="fas fa-receipt"></i> Ticket</button></td>
+                </tr>
+                <tr>
+                  <td><strong style="color:var(--dashboard-primary);">ORD-2026-0890</strong></td>
+                  <td>María Elena Rosas</td>
+                  <td>VW Jetta 2019 &middot; <span class="badge bg-light text-dark">WDF-109-B</span></td>
+                  <td>Balanceo por computadora + Frenos Delanteros</td>
+                  <td><strong>$2,150.00</strong></td>
+                  <td><span class="badge-orden badge-finalizada"><i class="fas fa-check"></i> Finalizada</span></td>
+                  <td><button class="btn btn-sm btn-outline-primary py-0" onclick="showTicketModal('ORD-2026-0890', 'María Elena Rosas', 'VW Jetta 2019', 'Balanceo + Frenos', '$2,150.00')"><i class="fas fa-receipt"></i> Ticket</button></td>
+                </tr>
+                <tr>
+                  <td><strong style="color:var(--dashboard-primary);">ORD-2026-0889</strong></td>
+                  <td>Taller Logística del Golfo S.A.</td>
+                  <td>Ford Ranger 2022 &middot; <span class="badge bg-light text-dark">XXA-882-C</span></td>
+                  <td>2 Llantas 265/70 R16 + Rotación</td>
+                  <td><strong>$7,920.00</strong></td>
+                  <td><span class="badge-orden badge-finalizada"><i class="fas fa-check"></i> Finalizada</span></td>
+                  <td><button class="btn btn-sm btn-outline-primary py-0" onclick="showTicketModal('ORD-2026-0889', 'Taller Logística del Golfo', 'Ford Ranger 2022', '2 Llantas 265/70 R16', '$7,920.00')"><i class="fas fa-receipt"></i> Ticket</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+
+      <!-- ══════════════════════════════════════════════════════════
+           SUB-VISTA 2: ÓRDENES DEL TALLER (admin/ordenes/index.blade.php)
+           ══════════════════════════════════════════════════════════ -->
+      <main class="dashboard-content subview" id="subview-ordenes">
+        
+        <div class="resource-hero">
+          <div>
+            <span class="resource-hero__eyebrow">SEGUIMIENTO DEL TALLER</span>
+            <h1 class="resource-hero__title">Órdenes activas y registradas</h1>
+            <p class="mb-0 text-muted" style="font-size:0.88rem;">
+              Control completo de servicios en patio, órdenes cerradas y cobros pendientes.
+            </p>
+          </div>
+          <button class="btn btn-primary fw-bold" onclick="switchTab('nueva-orden')">
+            <i class="fas fa-plus-circle me-1"></i> Nueva orden
+          </button>
+        </div>
+
+        <!-- Filtros de órdenes -->
+        <div class="filter-bar">
+          <input type="text" id="ordenesSearchInput" class="filter-search-input" placeholder="Buscar por folio, cliente, vehículo o placa..." oninput="filterOrdenes()">
+          <select id="ordenesStatusSelect" class="filter-select" onchange="filterOrdenes()">
+            <option value="todos">Todos los estados</option>
+            <option value="en proceso">En proceso</option>
+            <option value="finalizada">Finalizada</option>
+            <option value="cancelada">Cancelada</option>
+          </select>
+          <button class="btn btn-sm btn-outline-secondary" onclick="alert('Exportando listado de órdenes en Excel...');">
+            <i class="fas fa-file-excel text-success me-1"></i> Exportar
+          </button>
+        </div>
+
+        <div class="table-container">
+          <table class="frangy-table" id="ordenesMainTable">
+            <thead>
+              <tr>
+                <th>FOLIO</th>
+                <th>CLIENTE</th>
+                <th>VEHÍCULO</th>
+                <th>SERVICIO</th>
+                <th>TOTAL</th>
+                <th>FECHA</th>
+                <th>ESTADO</th>
+                <th>ACCIONES</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-status="en proceso">
+                <td><strong style="color:var(--dashboard-primary);">ORD-2026-0891</strong></td>
+                <td><strong>Carlos Méndez Torres</strong><br><small class="text-muted">Tel: 229-918-2234</small></td>
+                <td>Nissan Versa 2021<br><span class="badge bg-light text-dark">YGM-452-A</span></td>
+                <td>Cambio 4 Llantas 205/55 R16 + Alineación</td>
+                <td><strong>$6,840.00</strong></td>
+                <td>19/09/2026</td>
+                <td><span class="badge-orden badge-en-proceso"><i class="fas fa-spinner fa-spin"></i> En proceso</span></td>
+                <td>
+                  <button class="btn btn-sm btn-outline-primary" onclick="showTicketModal('ORD-2026-0891', 'Carlos Méndez Torres', 'Nissan Versa 2021', 'Cambio 4 Llantas + Alineación', '$6,840.00')"><i class="fas fa-receipt"></i></button>
+                </td>
+              </tr>
+              <tr data-status="finalizada">
+                <td><strong style="color:var(--dashboard-primary);">ORD-2026-0890</strong></td>
+                <td><strong>María Elena Rosas</strong><br><small class="text-muted">Tel: 229-145-8899</small></td>
+                <td>VW Jetta 2019<br><span class="badge bg-light text-dark">WDF-109-B</span></td>
+                <td>Balanceo por computadora + Balatas</td>
+                <td><strong>$2,150.00</strong></td>
+                <td>18/09/2026</td>
+                <td><span class="badge-orden badge-finalizada"><i class="fas fa-check"></i> Finalizada</span></td>
+                <td>
+                  <button class="btn btn-sm btn-outline-primary" onclick="showTicketModal('ORD-2026-0890', 'María Elena Rosas', 'VW Jetta 2019', 'Balanceo + Frenos', '$2,150.00')"><i class="fas fa-receipt"></i></button>
+                </td>
+              </tr>
+              <tr data-status="finalizada">
+                <td><strong style="color:var(--dashboard-primary);">ORD-2026-0889</strong></td>
+                <td><strong>Logística del Golfo S.A.</strong><br><small class="text-muted">RFC: LGO-190412-A89</small></td>
+                <td>Ford Ranger 2022<br><span class="badge bg-light text-dark">XXA-882-C</span></td>
+                <td>2 Llantas Michelin 265/70 R16 + Rotación</td>
+                <td><strong>$7,920.00</strong></td>
+                <td>17/09/2026</td>
+                <td><span class="badge-orden badge-finalizada"><i class="fas fa-check"></i> Finalizada</span></td>
+                <td>
+                  <button class="btn btn-sm btn-outline-primary" onclick="showTicketModal('ORD-2026-0889', 'Logística del Golfo', 'Ford Ranger 2022', '2 Llantas Michelin', '$7,920.00')"><i class="fas fa-receipt"></i></button>
+                </td>
+              </tr>
+              <tr data-status="cancelada">
+                <td><strong style="color:var(--dashboard-primary);">ORD-2026-0888</strong></td>
+                <td><strong>Roberto Pineda Soto</strong><br><small class="text-muted">Tel: 229-332-9011</small></td>
+                <td>Chevrolet Aveo 2018<br><span class="badge bg-light text-dark">UBF-311-D</span></td>
+                <td>Alineación Láser Delantera</td>
+                <td><strong>$450.00</strong></td>
+                <td>15/09/2026</td>
+                <td><span class="badge-orden badge-cancelada"><i class="fas fa-times"></i> Cancelada</span></td>
+                <td>
+                  <button class="btn btn-sm btn-outline-secondary" onclick="alert('Orden cancelada por el cliente.');"><i class="fas fa-ban"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </main>
+
+      <!-- ══════════════════════════════════════════════════════════
+           SUB-VISTA 3: REGISTRO DE NUEVA ORDEN (admin/ordenes/registro.blade.php)
+           ══════════════════════════════════════════════════════════ -->
+      <main class="dashboard-content subview" id="subview-nueva-orden">
+        
+        <div class="resource-hero">
+          <div>
+            <span class="resource-hero__eyebrow">RECEPCIÓN DE VEHÍCULO</span>
+            <h1 class="resource-hero__title">Registrar Nueva Orden de Servicio</h1>
+            <p class="mb-0 text-muted" style="font-size:0.88rem;">
+              Captura de datos de cliente, chequeo pericial del vehículo y asignación de servicios.
+            </p>
+          </div>
+          <button class="btn btn-outline-secondary fw-bold" onclick="switchTab('ordenes')">
+            <i class="fas fa-times me-1"></i> Cancelar
+          </button>
+        </div>
+
+        <form onsubmit="alert('¡Orden ORD-2026-0892 registrada con éxito!'); switchTab('ordenes'); return false;">
+          
+          <!-- Fila 1: Cliente y Vehículo -->
+          <div class="chart-card mb-3">
+            <h5 class="fw-bold mb-3"><i class="fas fa-user-circle text-primary me-2"></i>1. Datos del Cliente y Vehículo</h5>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Cliente:</label>
+                <select class="form-select form-select-sm" required>
+                  <option>Carlos Méndez Torres (229-918-2234)</option>
+                  <option>María Elena Rosas (229-145-8899)</option>
+                  <option>Logística del Golfo S.A. (LGO-190412)</option>
+                  <option>+ Registrar nuevo cliente...</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label small fw-bold">Marca y Modelo:</label>
+                <input type="text" class="form-control form-control-sm" value="Nissan Versa 2021" required>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label small fw-bold">Placas:</label>
+                <input type="text" class="form-control form-control-sm text-uppercase" value="YGM-452-A" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Odómetro / Kilometraje actual:</label>
+                <input type="text" class="form-control form-control-sm" value="48,250 km" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Color del vehículo:</label>
+                <input type="text" class="form-control form-control-sm" value="Plata Metálico">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Nivel de Combustible:</label>
+                <select class="form-select form-select-sm">
+                  <option>1/4 Tanque</option>
+                  <option selected>1/2 Tanque</option>
+                  <option>3/4 Tanque</option>
+                  <option>Lleno</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fila 2: Servicios a Realizar -->
+          <div class="chart-card mb-3">
+            <h5 class="fw-bold mb-3"><i class="fas fa-tools text-primary me-2"></i>2. Servicios Solicitados</h5>
+            <div class="row g-2">
+              <div class="col-md-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" checked id="s1">
+                  <label class="form-check-label small" for="s1">Montaje de 4 Neumáticos nuevos</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" checked id="s2">
+                  <label class="form-check-label small" for="s2">Alineación Láser Computarizada</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" checked id="s3">
+                  <label class="form-check-label small" for="s3">Balanceo dinámico computarizado</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="s4">
+                  <label class="form-check-label small" for="s4">Cambio de balatas / frenos</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="s5">
+                  <label class="form-check-label small" for="s5">Revisión de amortiguadores y suspensión</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="s6">
+                  <label class="form-check-label small" for="s6">Válvulas nuevas e inflado con Nitrógeno</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <label class="form-label small fw-bold">Observaciones del cliente / Daños previos:</label>
+              <textarea class="form-control form-control-sm" rows="2" placeholder="Describa rayones previos, ruidos extraños o petición especial...">Cliente refiere vibración en el volante al superar los 80 km/h en carretera. Se inspecciona y se detecta desgaste irregular en cara interior.</textarea>
+            </div>
+          </div>
+
+          <!-- Total y Guardar -->
+          <div class="d-flex justify-content-between align-items-center chart-card">
+            <div>
+              <span class="text-muted small">Cotización estimada:</span>
+              <div class="fs-4 fw-bold text-success">$6,840.00 MXN</div>
+            </div>
+            <button type="submit" class="btn btn-primary fw-bold px-4 py-2">
+              <i class="fas fa-save me-1"></i> Guardar y Generar Orden
+            </button>
+          </div>
+
+        </form>
+
+      </main>
+
+      <!-- ══════════════════════════════════════════════════════════
+           SUB-VISTA 4: CLIENTES (admin/clientes/index.blade.php)
+           ══════════════════════════════════════════════════════════ -->
+      <main class="dashboard-content subview" id="subview-clientes">
+        
+        <div class="resource-hero">
+          <div>
+            <span class="resource-hero__eyebrow">DIRECTORIO</span>
+            <h1 class="resource-hero__title">Clientes Registrados</h1>
+            <p class="mb-0 text-muted" style="font-size:0.88rem;">
+              Directorio de clientes, vehículos asignados e historial de compras.
+            </p>
+          </div>
+          <button class="btn btn-primary fw-bold" onclick="alert('Formulario de alta de cliente');">
+            <i class="fas fa-user-plus me-1"></i> Nuevo cliente
+          </button>
+        </div>
+
+        <div class="table-container">
+          <table class="frangy-table">
+            <thead>
+              <tr>
+                <th>CLIENTE</th>
+                <th>CONTACTO</th>
+                <th>VEHÍCULOS REGISTRADOS</th>
+                <th>ÓRDENES TOTALES</th>
+                <th>ÚLTIMA VISITA</th>
+                <th>ACCIONES</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Carlos Méndez Torres</strong></td>
+                <td><i class="fas fa-phone text-muted me-1"></i> 229-918-2234<br><small class="text-muted">carlos.mendez@gmail.com</small></td>
+                <td>Nissan Versa 2021 (YGM-452-A)</td>
+                <td><span class="badge bg-primary">3 órdenes</span></td>
+                <td>19/09/2026</td>
+                <td><button class="btn btn-sm btn-outline-success" onclick="alert('Abriendo WhatsApp...');"><i class="fab fa-whatsapp"></i></button></td>
+              </tr>
+              <tr>
+                <td><strong>María Elena Rosas</strong></td>
+                <td><i class="fas fa-phone text-muted me-1"></i> 229-145-8899<br><small class="text-muted">m.rosas@outlook.com</small></td>
+                <td>VW Jetta 2019 (WDF-109-B)</td>
+                <td><span class="badge bg-primary">5 órdenes</span></td>
+                <td>18/09/2026</td>
+                <td><button class="btn btn-sm btn-outline-success" onclick="alert('Abriendo WhatsApp...');"><i class="fab fa-whatsapp"></i></button></td>
+              </tr>
+              <tr>
+                <td><strong>Logística del Golfo S.A.</strong></td>
+                <td><i class="fas fa-phone text-muted me-1"></i> 229-980-0011<br><small class="text-muted">contacto@logisticagolfo.mx</small></td>
+                <td>Ford Ranger 2022 (XXA-882-C), Isuzu ELF 2020</td>
+                <td><span class="badge bg-primary">14 órdenes</span></td>
+                <td>17/09/2026</td>
+                <td><button class="btn btn-sm btn-outline-success" onclick="alert('Abriendo WhatsApp...');"><i class="fab fa-whatsapp"></i></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </main>
+
+      <!-- ══════════════════════════════════════════════════════════
+           SUB-VISTA 5: INVENTARIO (admin/inventario/index.blade.php)
+           ══════════════════════════════════════════════════════════ -->
+      <main class="dashboard-content subview" id="subview-inventario">
+        
+        <div class="resource-hero">
+          <div>
+            <span class="resource-hero__eyebrow">ALMACÉN DE LLANTAS Y REFACCIONES</span>
+            <h1 class="resource-hero__title">Inventario de Neumáticos</h1>
+            <p class="mb-0 text-muted" style="font-size:0.88rem;">
+              Control de existencias por medida, marca comercial, precios de lista y alertas de stock mínimo.
+            </p>
+          </div>
+          <button class="btn btn-primary fw-bold" onclick="alert('Registrar nuevo lote o producto');">
+            <i class="fas fa-plus me-1"></i> Agregar neumático
+          </button>
+        </div>
+
+        <div class="table-container">
+          <table class="frangy-table">
+            <thead>
+              <tr>
+                <th>CÓDIGO SKU</th>
+                <th>MARCA Y MODELO</th>
+                <th>MEDIDA</th>
+                <th>TIPO</th>
+                <th>EXISTENCIA</th>
+                <th>MÍNIMO</th>
+                <th>PRECIO VENTA</th>
+                <th>ESTATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>LL-MICH-205</code></td>
+                <td><strong>Michelin Primacy 4</strong></td>
+                <td><span class="badge bg-dark">205/55 R16</span></td>
+                <td>Sedán / Urbano</td>
+                <td><strong>2 pzas</strong></td>
+                <td>4 pzas</td>
+                <td>$1,710.00</td>
+                <td><span class="badge bg-danger">Stock Crítico</span></td>
+              </tr>
+              <tr>
+                <td><code>LL-BRID-225</code></td>
+                <td><strong>Bridgestone Turanza ER300</strong></td>
+                <td><span class="badge bg-dark">225/45 R17</span></td>
+                <td>Sedán Deportivo</td>
+                <td><strong>14 pzas</strong></td>
+                <td>6 pzas</td>
+                <td>$2,190.00</td>
+                <td><span class="badge bg-success">Óptimo</span></td>
+              </tr>
+              <tr>
+                <td><code>LL-PIRE-195</code></td>
+                <td><strong>Pirelli Cinturato P1</strong></td>
+                <td><span class="badge bg-dark">195/65 R15</span></td>
+                <td>Compacto</td>
+                <td><strong>8 pzas</strong></td>
+                <td>4 pzas</td>
+                <td>$1,480.00</td>
+                <td><span class="badge bg-success">Óptimo</span></td>
+              </tr>
+              <tr>
+                <td><code>LL-MICH-265</code></td>
+                <td><strong>Michelin LTX Force A/T</strong></td>
+                <td><span class="badge bg-dark">265/70 R16</span></td>
+                <td>Camioneta / SUV</td>
+                <td><strong>4 pzas</strong></td>
+                <td>4 pzas</td>
+                <td>$3,960.00</td>
+                <td><span class="badge bg-warning text-dark">Límite Mínimo</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </main>
+
+      <!-- ══════════════════════════════════════════════════════════
+           SUB-VISTA 6: COTIZACIONES
+           ══════════════════════════════════════════════════════════ -->
+      <main class="dashboard-content subview" id="subview-cotizaciones">
+        <div class="resource-hero">
+          <div>
+            <span class="resource-hero__eyebrow">PROPUESTAS</span>
+            <h1 class="resource-hero__title">Cotizaciones a Clientes</h1>
+            <p class="mb-0 text-muted" style="font-size:0.88rem;">Presupuestos pendientes de aprobación por WhatsApp o correo.</p>
+          </div>
+          <button class="btn btn-primary fw-bold" onclick="alert('Nueva cotización generada.');"><i class="fas fa-plus me-1"></i> Nueva cotización</button>
+        </div>
+
+        <div class="table-container">
+          <table class="frangy-table">
+            <thead>
+              <tr>
+                <th>FOLIO COT</th>
+                <th>CLIENTE</th>
+                <th>DETALLE</th>
+                <th>VENCIMIENTO</th>
+                <th>MONTO</th>
+                <th>ESTADO</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>COT-2026-0142</strong></td>
+                <td>Ing. Fernando Galindo</td>
+                <td>4 Llantas 225/45 R17 Pirelli + Montaje</td>
+                <td>25/09/2026</td>
+                <td><strong>$6,420.00</strong></td>
+                <td><span class="badge bg-warning text-dark">Pendiente</span></td>
+              </tr>
+              <tr>
+                <td><strong>COT-2026-0141</strong></td>
+                <td>Patricia Domínguez</td>
+                <td>Paquete Afinación + Frenos Cerámicos</td>
+                <td>22/09/2026</td>
+                <td><strong>$3,100.00</strong></td>
+                <td><span class="badge bg-success">Aprobada</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+
+      <!-- ══════════════════════════════════════════════════════════
+           SUB-VISTA 7: CATÁLOGOS
+           ══════════════════════════════════════════════════════════ -->
+      <main class="dashboard-content subview" id="subview-catalogos">
+        <div class="resource-hero">
+          <div>
+            <span class="resource-hero__eyebrow">CONFIGURACIÓN</span>
+            <h1 class="resource-hero__title">Catálogos de Vehículos y Servicios</h1>
+            <p class="mb-0 text-muted" style="font-size:0.88rem;">Marcas registradas, clasificaciones vehiculares y tarifas base.</p>
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="chart-card">
+              <h6 class="fw-bold mb-3"><i class="fas fa-car text-primary me-2"></i>Marcas de Vehículos Registradas</h6>
+              <ul class="list-group list-group-flush small">
+                <li class="list-group-item d-flex justify-content-between">Nissan <span class="badge bg-secondary">24 modelos</span></li>
+                <li class="list-group-item d-flex justify-content-between">Volkswagen <span class="badge bg-secondary">18 modelos</span></li>
+                <li class="list-group-item d-flex justify-content-between">Chevrolet <span class="badge bg-secondary">15 modelos</span></li>
+                <li class="list-group-item d-flex justify-content-between">Ford <span class="badge bg-secondary">12 modelos</span></li>
+                <li class="list-group-item d-flex justify-content-between">Toyota <span class="badge bg-secondary">10 modelos</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="chart-card">
+              <h6 class="fw-bold mb-3"><i class="fas fa-wrench text-primary me-2"></i>Tarifas de Mano de Obra Base</h6>
+              <ul class="list-group list-group-flush small">
+                <li class="list-group-item d-flex justify-content-between">Alineación Láser Delantera <strong>$350.00</strong></li>
+                <li class="list-group-item d-flex justify-content-between">Balanceo Computarizado (por rueda) <strong>$80.00</strong></li>
+                <li class="list-group-item d-flex justify-content-between">Montaje y Desmontaje de Neumático <strong>$60.00</strong></li>
+                <li class="list-group-item d-flex justify-content-between">Cambio de Balatas Delanteras <strong>$400.00</strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- ══════════════════════════════════════════════════════════
+           SUB-VISTA 8: REPORTES
+           ══════════════════════════════════════════════════════════ -->
+      <main class="dashboard-content subview" id="subview-reportes">
+        <div class="resource-hero">
+          <div>
+            <span class="resource-hero__eyebrow">ESTADÍSTICAS</span>
+            <h1 class="resource-hero__title">Reportes y Balances del Taller</h1>
+            <p class="mb-0 text-muted" style="font-size:0.88rem;">Análisis de facturación, servicios más demandados y rentabilidad.</p>
+          </div>
+          <button class="btn btn-danger fw-bold" onclick="alert('Descargando reporte financiero consolidado PDF...');">
+            <i class="fas fa-file-pdf me-1"></i> Descargar Balance PDF
+          </button>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="chart-card text-center py-4">
+              <div class="text-muted small fw-bold">FACTURACIÓN DEL MES</div>
+              <div class="fs-2 fw-bold text-primary mt-1">$194,520.00</div>
+              <div class="text-success small fw-bold"><i class="fas fa-arrow-up"></i> +14.2% vs mes anterior</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="chart-card text-center py-4">
+              <div class="text-muted small fw-bold">TICKET PROMEDIO</div>
+              <div class="fs-2 fw-bold text-success mt-1">$3,353.79</div>
+              <div class="text-muted small">Por vehículo ingresado</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="chart-card text-center py-4">
+              <div class="text-muted small fw-bold">EFICIENCIA DE ENTREGA</div>
+              <div class="fs-2 fw-bold text-info mt-1">96.5%</div>
+              <div class="text-muted small">Órdenes a tiempo</div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- ══════════════════════════════════════════════════════════
+           SUB-VISTA 9: ACERCA DE
+           ══════════════════════════════════════════════════════════ -->
+      <main class="dashboard-content subview" id="subview-acerca">
+        <div class="chart-card text-center py-5" style="max-width:700px;margin:2rem auto;">
+          <img src="./assets/franlogo.png" alt="Frangy" style="height:60px;margin-bottom:1.5rem;">
+          <h2 class="fw-bold mb-2">Frangy Control</h2>
+          <div class="badge bg-primary mb-3">Versión 2.0.14 &middot; Producción</div>
+          <p class="text-muted px-4" style="line-height:1.6;">
+            Sistema de administración integral para taller mecánico y llantera. Desarrollado originalmente para optimizar la recepción vehicular, inventario de neumáticos por medida y emisión de órdenes de trabajo en tiempo real con usuarios activos.
+          </p>
+          <div class="d-flex justify-content-center gap-4 text-muted small mt-4">
+            <div><strong>Desarrollador:</strong> Ismael García</div>
+            <div><strong>Stack:</strong> PHP Laravel + MySQL + Bootstrap</div>
+          </div>
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Modal Ticket de Orden Oficial Frangy -->
+  <div class="frangy-modal-backdrop" id="ticketModal">
+    <div class="frangy-ticket-window">
+      <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+        <div class="d-flex align-items-center gap-2">
+          <img src="./assets/franlogo.png" alt="Frangy" style="height:28px;">
+          <strong id="ticketFolio">ORD-2026-0891</strong>
+        </div>
+        <button class="btn btn-sm btn-close" onclick="closeTicketModal()"></button>
+      </div>
+
+      <div style="background:#fff;color:#000;padding:1.25rem;border:1px dashed #ccc;font-family:monospace;font-size:0.82rem;line-height:1.4;">
+        <div class="text-center mb-2">
+          <strong>FRANGY CONTROL &middot; LLANTERA Y TALLER</strong><br>
+          <span>Av. Salvador Díaz Mirón 1420 &middot; Veracruz, Ver.</span><br>
+          <span>Tel: (229) 931-0022</span>
+        </div>
+        <hr style="border-top:1px dashed #000;margin:6px 0;">
+        <div><strong>CLIENTE:</strong> <span id="ticketCliente">Carlos Méndez Torres</span></div>
+        <div><strong>AUTO:</strong> <span id="ticketAuto">Nissan Versa 2021</span></div>
+        <div><strong>FECHA:</strong> 19/09/2026 &middot; 17:10 hrs</div>
+        <hr style="border-top:1px dashed #000;margin:6px 0;">
+        <div class="d-flex justify-content-between">
+          <span id="ticketServicio">Cambio 4 Llantas + Alineación</span>
+          <strong id="ticketTotal">$6,840.00</strong>
+        </div>
+        <hr style="border-top:1px dashed #000;margin:6px 0;">
+        <div class="d-flex justify-content-between fw-bold">
+          <span>TOTAL A PAGAR:</span>
+          <span id="ticketTotalFinal" class="fs-6">$6,840.00 MXN</span>
+        </div>
+        <div class="text-center mt-3" style="font-size:0.75rem;">
+          ¡Gracias por su preferencia!<br>
+          Garantía de 6 meses en alineación y balanceo.
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end gap-2 mt-3">
+        <button class="btn btn-sm btn-outline-secondary" onclick="closeTicketModal()">Cerrar</button>
+        <button class="btn btn-sm btn-primary" onclick="window.print()"><i class="fas fa-print me-1"></i> Imprimir Ticket</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Conmutador de Pestañas de Navegación
+    function switchTab(target) {
+      document.querySelectorAll('.dashboard-sidebar__link').forEach(link => {
+        link.classList.toggle('is-active', link.getAttribute('data-target') === target);
+      });
+
+      document.querySelectorAll('.subview').forEach(view => {
+        view.classList.remove('active');
+      });
+
+      const activeView = document.getElementById('subview-' + target);
+      if (activeView) {
+        activeView.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Actualizar título en topbar
+      const titles = {
+        'inicio': 'Panel de control',
+        'ordenes': 'Órdenes activas y registradas',
+        'nueva-orden': 'Recepción y nueva orden',
+        'clientes': 'Directorio de clientes',
+        'cotizaciones': 'Cotizaciones y presupuestos',
+        'inventario': 'Almacén y neumáticos',
+        'catalogos': 'Catálogos del taller',
+        'reportes': 'Reportes y balances',
+        'acerca': 'Acerca de Frangy Control'
+      };
+      document.getElementById('topbarPageTitle').textContent = titles[target] || 'Panel de control';
+    }
+
+    // Filtrar órdenes
+    function filterOrdenes() {
+      const q = (document.getElementById('ordenesSearchInput').value || '').toLowerCase();
+      const status = document.getElementById('ordenesStatusSelect').value;
+      const rows = document.querySelectorAll('#ordenesMainTable tbody tr');
+
+      rows.forEach(r => {
+        const text = r.textContent.toLowerCase();
+        const rowStatus = r.getAttribute('data-status');
+        const matchesQ = text.includes(q);
+        const matchesStatus = (status === 'todos') || (rowStatus === status);
+
+        if (matchesQ && matchesStatus) {
+          r.style.display = '';
+        } else {
+          r.style.display = 'none';
+        }
+      });
+    }
+
+    // Modal de Ticket
+    function showTicketModal(folio, cliente, auto, servicio, total) {
+      document.getElementById('ticketFolio').textContent = folio;
+      document.getElementById('ticketCliente').textContent = cliente;
+      document.getElementById('ticketAuto').textContent = auto;
+      document.getElementById('ticketServicio').textContent = servicio;
+      document.getElementById('ticketTotal').textContent = total;
+      document.getElementById('ticketTotalFinal').textContent = total + ' MXN';
+      document.getElementById('ticketModal').classList.add('open');
+    }
+
+    function closeTicketModal() {
+      document.getElementById('ticketModal').classList.remove('open');
+    }
+
+    // Modo Oscuro
+    const themeBtn = document.getElementById('themeToggleBtn');
+    themeBtn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      themeBtn.innerHTML = next === 'dark' 
+        ? '<i class="fas fa-sun"></i> Modo claro' 
+        : '<i class="fas fa-moon"></i> Modo oscuro';
+    });
+  </script>
+
+</body>
+
+</html>

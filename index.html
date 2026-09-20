@@ -783,6 +783,8 @@
       border-radius: 4px;
       overflow: hidden;
       transition: border-color 0.2s;
+      display: flex;
+      flex-direction: column;
     }
 
     .proj-block:hover {
@@ -814,6 +816,14 @@
 
     .proj-block-body {
       padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .proj-block-body .proj-desc {
+      flex: 1;
+      margin-bottom: 0.75rem;
     }
 
     .proj-img-wrap {
@@ -985,20 +995,211 @@
       align-items: center;
       gap: 6px;
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 11px;
       color: var(--text-muted);
       text-decoration: none;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.04em;
       border: 1px solid var(--border);
-      padding: 5px 10px;
-      border-radius: 2px;
-      transition: color 0.2s, border-color 0.2s;
+      padding: 6px 12px;
+      border-radius: 3px;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
       white-space: nowrap;
+      background: rgba(255, 255, 255, 0.02);
     }
 
     .proj-github-link:hover {
       color: var(--accent);
       border-color: var(--accent-border);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* ── Project Actions Row ── */
+    .proj-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    /* ── Project Live Demo Button ── */
+    .proj-demo-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: #0b0c10;
+      background: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      border: 1px solid var(--accent);
+      padding: 6px 14px;
+      border-radius: 3px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 2px 10px rgba(200, 184, 154, 0.2);
+    }
+
+    .proj-demo-btn:hover {
+      background: #dfd2b9;
+      border-color: #dfd2b9;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(200, 184, 154, 0.35);
+    }
+
+    .proj-demo-btn .live-dot {
+      width: 7px;
+      height: 7px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #10b981;
+      display: inline-block;
+      animation: livePulse 1.8s infinite;
+    }
+
+    @keyframes livePulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(0.75); opacity: 0.5; }
+    }
+
+    /* ── Demo Modal Backdrop & Window ── */
+    .demo-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(8, 9, 12, 0.88);
+      backdrop-filter: blur(10px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      padding: 1.5rem;
+    }
+
+    .demo-modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .demo-modal-window {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-mid);
+      border-radius: 8px;
+      width: 100%;
+      max-width: 1200px;
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
+      transform: scale(0.97);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .demo-modal-backdrop.active .demo-modal-window {
+      transform: scale(1);
+    }
+
+    .demo-modal-header {
+      padding: 0.85rem 1.25rem;
+      background: rgba(20, 20, 23, 0.95);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .demo-modal-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .demo-modal-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid var(--accent-border);
+      padding: 2px 8px;
+      border-radius: 2px;
+    }
+
+    .demo-modal-title h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .demo-modal-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .demo-header-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 5px 10px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+
+    .demo-header-action:hover {
+      color: var(--text-primary);
+      border-color: var(--border-mid);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .demo-header-close {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+
+    .demo-header-close:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--border-mid);
+    }
+
+    .demo-modal-body {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background: #000000;
+    }
+
+    .demo-modal-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
     }
 
     /* ── SimuladorMolecular screenshot gallery ── */
@@ -1637,6 +1838,18 @@
               <span class="tech-tag">Podman</span>
               <span class="tech-tag">IA</span>
             </div>
+            <div class="proj-actions">
+              <button class="proj-demo-btn" data-demo-url="./demos/ssap-conalep.html" data-demo-title="S.S.A.P. · Sistema de Atención Psicológica CONALEP">
+                <span class="live-dot"></span>
+                Visualizar Demo
+              </button>
+              <a href="https://github.com/isgaar/SSAP-Conalep" target="_blank" class="proj-github-link">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                </svg>
+                github.com/isgaar/SSAP-Conalep
+              </a>
+            </div>
           </div>
         </div>
 
@@ -1666,6 +1879,18 @@
               <span class="tech-tag">Laravel</span>
               <span class="tech-tag">MySQL</span>
               <span class="tech-tag">CRUD</span>
+            </div>
+            <div class="proj-actions">
+              <button class="proj-demo-btn" data-demo-url="./demos/frangy-control.html" data-demo-title="Frangy Control · Sistema Administrativo Taller y Llantera">
+                <span class="live-dot"></span>
+                Visualizar Demo
+              </button>
+              <a href="https://github.com/isgaar/frangyControl" target="_blank" class="proj-github-link">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                </svg>
+                github.com/isgaar/frangyControl
+              </a>
             </div>
           </div>
         </div>
@@ -1746,14 +1971,18 @@
               <img src="https://github.com/isgaar/SimuladorMolecular/raw/main/capturas/imagen2.png"
                 alt="Vista atómica esferas" class="sim-thumb" onerror="this.style.display='none'">
             </div>
-            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-              <div class="tech-row" style="margin-top:0;flex:1;">
-                <span class="tech-tag">Python</span>
-                <span class="tech-tag">HTML</span>
-                <span class="tech-tag">CSS</span>
-                <span class="tech-tag">.pdb Parser</span>
-                <span class="tech-tag">3D Viewer</span>
-              </div>
+            <div class="tech-row" style="margin-top:1rem;margin-bottom:12px;">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">HTML</span>
+              <span class="tech-tag">CSS</span>
+              <span class="tech-tag">.pdb Parser</span>
+              <span class="tech-tag">3D Viewer</span>
+            </div>
+            <div class="proj-actions">
+              <button class="proj-demo-btn" data-demo-url="./demos/simulador-molecular.html" data-demo-title="Simulador Molecular 3D · Visor y Parser PDB">
+                <span class="live-dot"></span>
+                Visualizar Demo
+              </button>
               <a href="https://github.com/isgaar/SimuladorMolecular" target="_blank" class="proj-github-link">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                   stroke-linecap="round" stroke-linejoin="round">
@@ -2089,6 +2318,37 @@
     </div>
   </div>
 
+  <!-- Modal Visor de Demos Interactivos -->
+  <div class="demo-modal-backdrop" id="demoModal">
+    <div class="demo-modal-window">
+      <div class="demo-modal-header">
+        <div class="demo-modal-title">
+          <span class="demo-modal-badge">DEMO EN VIVO</span>
+          <h3 id="demoModalHeading">Cargando demo...</h3>
+        </div>
+        <div class="demo-modal-actions">
+          <a id="demoModalExternalLink" href="#" target="_blank" class="demo-header-action" title="Abrir en pestaña completa">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            Abrir en pestaña nueva
+          </a>
+          <button id="demoModalClose" class="demo-header-close" aria-label="Cerrar demo">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="demo-modal-body">
+        <iframe id="demoModalIframe" src="about:blank"></iframe>
+      </div>
+    </div>
+  </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
 
@@ -2348,6 +2608,55 @@
         });
 
       })(); // fin IIFE slideshow
+
+      // ══════════════════════════════════════════
+      //  MODAL VISOR DE DEMOS INTERACTIVOS
+      // ══════════════════════════════════════════
+      (function () {
+        const demoModal = document.getElementById('demoModal');
+        const demoIframe = document.getElementById('demoModalIframe');
+        const demoHeading = document.getElementById('demoModalHeading');
+        const demoExtLink = document.getElementById('demoModalExternalLink');
+        const demoClose = document.getElementById('demoModalClose');
+
+        function openDemo(url, title) {
+          demoHeading.textContent = title;
+          demoExtLink.href = url;
+          demoIframe.src = url;
+          demoModal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closeDemo() {
+          demoModal.classList.remove('active');
+          document.body.style.overflow = '';
+          // Limpiar iframe para liberar memoria/WebGL
+          demoIframe.src = 'about:blank';
+        }
+
+        document.querySelectorAll('.proj-demo-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const url = btn.getAttribute('data-demo-url');
+            const title = btn.getAttribute('data-demo-title') || 'Demo Interactivo';
+            openDemo(url, title);
+          });
+        });
+
+        demoClose.addEventListener('click', closeDemo);
+
+        demoModal.addEventListener('click', (e) => {
+          if (e.target === demoModal) {
+            closeDemo();
+          }
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (demoModal.classList.contains('active') && e.key === 'Escape') {
+            closeDemo();
+          }
+        });
+      })();
 
     }); // fin DOMContentLoaded
   </script>

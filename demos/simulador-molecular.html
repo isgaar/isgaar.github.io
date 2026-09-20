@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visor Molecular 3D · Simulador Molecular</title>
+  <link rel="icon" href="./assets/icon.png" type="image/png">
+
+  <!-- Enlace a Font Awesome para los iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <!-- Enlace al archivo local de 3Dmol.js -->
+  <script src="./assets/js/3Dmol-min.js"></script>
+
+  <!-- Hoja de estilos extraída directamente de SimuladorMolecular/app/static/styles.css -->
+  <style>
+    /* Estilo global extraído del repositorio original */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #F5F5F7; /* Fondo gris claro similar a macOS */
+      color: #1D1D1F; /* Texto oscuro para buena legibilidad */
+    }
+
+    /* Barra superior de retorno al portafolio */
+    .top-bar-portfolio {
+      background: #111318;
+      color: #c8b89a;
+      padding: 6px 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      box-sizing: border-box;
+      z-index: 200;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .top-bar-portfolio a {
+      color: #c8b89a;
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .top-bar-portfolio a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    /* Barra de navegación original de SimuladorMolecular */
+    .navbar {
+      background-color: #007AFF; /* Azul vibrante de macOS */
+      padding: 1em 1vw;
+      position: fixed;
+      top: 31px;
+      left: 0;
+      width: 100%;
+      box-sizing: border-box;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      justify-content: flex-end;
+      margin: 0;
+      padding: 0;
+      margin-left: 5%;
+      padding-right: 5vw;
+    }
+
+    .navbar li {
+      margin: 0 2vw;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.1em;
+    }
+
+    .navbar .active {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    /* Contenedor para el visor 3D y la tabla */
+    .content-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: stretch;
+      margin-top: 110px;
+      padding: 0 5vw 40px;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 900px) {
+      .content-container {
+        flex-direction: column;
+      }
+    }
+
+    /* Contenedor del visor 3D */
+    .viewer-container {
+      flex: 2;
+      position: relative;
+      background-color: #f9f9f9;
+      border-radius: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .viewer {
+      width: 100%;
+      height: 480px;
+      background-color: #E5E5EA; /* Gris claro */
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Controles encima del visor */
+    .controls-overlay {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      display: flex;
+      justify-content: space-between;
+      z-index: 10;
+      background-color: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 6px 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .controls-overlay select {
+      padding: 6px 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: white;
+      cursor: pointer;
+    }
+
+    .controls-overlay button {
+      padding: 6px 14px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .btn-fullscreen {
+      background-color: #007BFF;
+      color: white;
+    }
+
+    .btn-fullscreen:hover {
+      background-color: #0056b3;
+    }
+
+    .btn-reset {
+      background-color: #DC3545;
+      color: white;
+      margin-left: 6px;
+    }
+
+    .btn-reset:hover {
+      background-color: #A71B2A;
+    }
+
+    /* Panel de información */
+    #pdbInfo {
+      flex: 1;
+      background-color: #FFFFFF; /* Fondo blanco */
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      color: #1D1D1F; /* Texto oscuro */
+      box-sizing: border-box;
+    }
+
+    #pdbInfo h3 {
+      margin: 0;
+      font-size: 1.3em;
+      color: #1D1D1F;
+    }
+
+    #uploadForm {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    #uploadForm label {
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    #uploadForm input[type="file"] {
+      font-size: 13px;
+      padding: 6px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: #fafafa;
+    }
+
+    #uploadForm button {
+      background-color: #007AFF;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background-color 0.2s;
+    }
+
+    #uploadForm button:hover {
+      background-color: #005ecb;
+    }
+
+    .preset-selector-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f1f3f6;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    .preset-selector-row select {
+      flex: 1;
+      padding: 5px 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 13px;
+      background: white;
+    }
+
+    /* Tabla */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      background: #ffffff;
+      border: 1px solid #e5e5ea;
+    }
+
+    table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #E5E5EA; /* Gris separador */
+      font-size: 13px;
+      color: #1D1D1F; /* Texto oscuro */
+      word-break: break-word;
+    }
+
+    table tr:last-child td {
+      border-bottom: none;
+    }
+
+    table td:first-child {
+      font-weight: 600;
+      width: 38%;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Barra de retorno al portafolio -->
+  <div class="top-bar-portfolio">
+    <a href="../index.html#pasatiempos">
+      <i class="fas fa-arrow-left"></i> Volver al Portafolio (Proyectos personales)
+    </a>
+    <span>Proyecto: <strong>Simulador Molecular</strong> · Visor 3D</span>
+  </div>
+
+  <!-- Barra de navegación original de SimuladorMolecular -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="#cursos">Cursos</a></li>
+      <li class="active"><a href="#biblioteca">Biblioteca</a></li>
+    </ul>
+  </nav>
+
+  <!-- Contenido principal -->
+  <main>
+    <div class="content-container">
+      <!-- Contenedor del visor 3D -->
+      <div class="viewer-container">
+        <!-- Opciones dentro del render -->
+        <div class="controls-overlay">
+          <select id="renderMode">
+            <option value="cartoon">Vista Molecular</option>
+            <option value="atomic-stick" selected>Vista Atómica (Bastones)</option>
+            <option value="atomic-sphere">Vista Atómica (Esferas)</option>
+          </select>
+          <div>
+            <button class="btn-fullscreen" id="fullscreenButton">Pantalla Completa</button>
+            <button class="btn-reset" id="resetViewButton">Reiniciar Vista</button>
+          </div>
+        </div>
+        <div id="viewer" class="viewer"></div>
+      </div>
+
+      <!-- Información del archivo PDB -->
+      <div id="pdbInfo">
+        <h3>Información del Archivo PDB</h3>
+
+        <!-- Formulario para cargar archivo -->
+        <form id="uploadForm" enctype="multipart/form-data">
+          <label for="file">Cargar archivo:</label>
+          <input type="file" id="file" name="file" accept=".pdb">
+          <button type="submit">
+            <i class="fas fa-play"></i> Iniciar renderizado
+          </button>
+        </form>
+
+        <!-- Selector de moléculas de muestra preconfiguradas del repositorio -->
+        <div class="preset-selector-row">
+          <label for="samplePdbSelect"><strong>Muestra:</strong></label>
+          <select id="samplePdbSelect">
+            <option value="8i7s.pdb" selected>8i7s.pdb (Proteína p53 - Captura original)</option>
+            <option value="7hng.pdb">7hng.pdb (Macromolécula)</option>
+            <option value="ATP.pdb">ATP.pdb (Adenosín Trifosfato)</option>
+            <option value="H2O.pdb">H2O.pdb (Agua)</option>
+            <option value="ethane.pdb">ethane.pdb (Etano)</option>
+            <option value="ethylene.pdb">ethylene.pdb (Etileno)</option>
+            <option value="xenon_di_flouride.pdb">xenon_di_flouride.pdb (XeF2)</option>
+          </select>
+        </div>
+
+        <!-- Tabla de información -->
+        <table>
+          <tr>
+            <td>Nombre del archivo:</td>
+            <td id="filename">8i7s.pdb</td>
+          </tr>
+          <tr>
+            <td>Átomos:</td>
+            <td id="atoms">4762</td>
+          </tr>
+          <tr>
+            <td>Cadenas:</td>
+            <td id="chains">B, A</td>
+          </tr>
+          <tr>
+            <td>Residuos:</td>
+            <td id="residues">HOH, GLU, ARG, LYS, GLN, TYR, PHE, SER, HIS, CYS, TRP, LEU, VAL, PTR, 6CI, ASP, ASN, PRO</td>
+          </tr>
+          <tr>
+            <td>Tamaño:</td>
+            <td id="size">784323 bytes</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Script para manejo del visor 3D y carga del archivo PDB en tiempo real -->
+  <script>
+    const form = document.getElementById("uploadForm");
+    const viewerDiv = document.getElementById("viewer");
+    const renderMode = document.getElementById("renderMode");
+    const fullscreenButton = document.getElementById("fullscreenButton");
+    const resetViewButton = document.getElementById("resetViewButton");
+    const sampleSelect = document.getElementById("samplePdbSelect");
+
+    // Inicializa el visor 3Dmol.js con fondo blanco idéntico al repo original
+    const viewer = $3Dmol.createViewer(viewerDiv, { backgroundColor: "white" });
+
+    // Cambiar entre modos de renderizado
+    renderMode.addEventListener("change", (event) => {
+      const mode = event.target.value;
+      viewer.setStyle({}, {}); // Limpia estilos actuales
+
+      if (mode === "cartoon") {
+        viewer.setStyle({}, { cartoon: { color: "spectrum" }, stick: { radius: 0.15, colorscheme: "cpk" } });
+      } else if (mode === "atomic-stick") {
+        viewer.setStyle({}, { stick: { radius: 0.2, colorscheme: "cpk" } });
+      } else if (mode === "atomic-sphere") {
+        viewer.setStyle({}, { sphere: { scale: 0.3, colorscheme: "cpk" } });
+      }
+
+      viewer.zoomTo();
+      viewer.render();
+    });
+
+    // Pantalla completa
+    fullscreenButton.addEventListener("click", () => {
+      if (viewerDiv.requestFullscreen) {
+        viewerDiv.requestFullscreen();
+      } else if (viewerDiv.webkitRequestFullscreen) {
+        viewerDiv.webkitRequestFullscreen();
+      } else if (viewerDiv.mozRequestFullScreen) {
+        viewerDiv.mozRequestFullScreen();
+      } else if (viewerDiv.msRequestFullscreen) {
+        viewerDiv.msRequestFullscreen();
+      }
+    });
+
+    // Reiniciar vista
+    resetViewButton.addEventListener("click", () => {
+      viewer.zoomTo();
+      viewer.render();
+    });
+
+    // Parser sintáctico de PDB idéntico al servicio Python original pdb_service.py
+    function parsePdbText(pdbString, filename, sizeBytes) {
+      const lines = pdbString.split(/\r?\n/);
+      let atomCount = 0;
+      const chains = new Set();
+      const residues = new Set();
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        if (line.startsWith("ATOM") || line.startsWith("HETATM")) {
+          atomCount++;
+          const resName = line.substring(17, 20).trim();
+          if (resName) residues.add(resName);
+          const chainId = line.substring(21, 22).trim();
+          if (chainId) chains.add(chainId);
+        }
+      }
+
+      return {
+        filename: filename,
+        atoms: atomCount,
+        chains: Array.from(chains),
+        residues: Array.from(residues),
+        size: sizeBytes || pdbString.length
+      };
+    }
+
+    function updateTable(data) {
+      document.getElementById("filename").innerText = data.filename;
+      document.getElementById("atoms").innerText = data.atoms || "N/A";
+      document.getElementById("chains").innerText = (data.chains || []).join(", ") || "A";
+      document.getElementById("residues").innerText = (data.residues || []).join(", ") || "N/A";
+      document.getElementById("size").innerText = `${data.size || 0} bytes`;
+    }
+
+    function renderPdbString(pdbData, filename, sizeBytes) {
+      const metrics = parsePdbText(pdbData, filename, sizeBytes);
+      updateTable(metrics);
+
+      viewer.clear();
+      viewer.addModel(pdbData, "pdb");
+      renderMode.dispatchEvent(new Event("change")); // Aplica el estilo seleccionado
+    }
+
+    // Carga de archivo por el formulario (procesa archivos PDB locales en el navegador)
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const fileInput = document.getElementById("file");
+
+      if (fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          renderPdbString(e.target.result, file.name, file.size);
+        };
+        reader.readAsText(file);
+      } else {
+        // Si no seleccionó un archivo manual, cargar la muestra seleccionada
+        loadSamplePdb(sampleSelect.value);
+      }
+    });
+
+    // Cargar muestra de PDB
+    async function loadSamplePdb(filename) {
+      try {
+        const res = await fetch("./assets/pdbs/" + filename);
+        if (!res.ok) throw new Error("No se pudo cargar la muestra");
+        const text = await res.text();
+        renderPdbString(text, filename, text.length);
+      } catch (e) {
+        console.error("Error al cargar la muestra", e);
+      }
+    }
+
+    sampleSelect.addEventListener("change", (e) => {
+      loadSamplePdb(e.target.value);
+    });
+
+    // Cargar por defecto la molécula 8i7s.pdb al inicio (idéntica a la captura de pantalla del usuario)
+    window.addEventListener("DOMContentLoaded", () => {
+      loadSamplePdb("8i7s.pdb");
+    });
+  </script>
+</body>
+
+</html>
