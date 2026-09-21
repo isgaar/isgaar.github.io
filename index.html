@@ -1022,8 +1022,9 @@
       margin-top: 14px;
     }
 
-    /* ── Project Live Demo Button ── */
-    .proj-demo-btn {
+    /* ── Project Live Demo Button & PDF Button ── */
+    .proj-demo-btn,
+    .proj-pdf-btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -1043,11 +1044,13 @@
       box-shadow: 0 2px 10px rgba(200, 184, 154, 0.2);
     }
 
-    .proj-demo-btn:hover {
+    .proj-demo-btn:hover,
+    .proj-pdf-btn:hover {
       background: #dfd2b9;
       border-color: #dfd2b9;
       transform: translateY(-1px);
       box-shadow: 0 4px 14px rgba(200, 184, 154, 0.35);
+      color: #0b0c10;
     }
 
     .proj-demo-btn .live-dot {
@@ -1250,7 +1253,8 @@
       position: relative;
     }
 
-    .slide-item img {
+    .slide-item img,
+    .slide-item video {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -1259,7 +1263,8 @@
       transition: filter 0.25s;
     }
 
-    .slideshow-wrap:hover .slide-item img {
+    .slideshow-wrap:hover .slide-item img,
+    .slideshow-wrap:hover .slide-item video {
       filter: brightness(1);
     }
 
@@ -1369,7 +1374,8 @@
       background: rgba(10, 10, 12, 0.95);
     }
 
-    .lightbox-img-wrap img {
+    .lightbox-img-wrap img,
+    .lightbox-img-wrap video {
       display: block;
       width: auto;
       height: auto;
@@ -1802,6 +1808,23 @@
             <span class="tech-tag">.pdb Parser</span>
             <span class="tech-tag">API REST</span>
             <span class="tech-tag">Química molecular</span>
+          </div>
+          <div class="proj-actions">
+            <a href="./src/EXPOCIENCIAS_ATOMOS_VITUALES.pdf" target="_blank" rel="noopener noreferrer" class="proj-pdf-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              Visualizar Documento Académico (PDF)
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.75;margin-left:2px;">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
           </div>
         </div>
       </div>
@@ -2306,6 +2329,7 @@
       <button class="lb-close" id="lb-close" aria-label="Cerrar">✕</button>
       <div class="lightbox-img-wrap">
         <img id="lb-img" src="" alt="">
+        <video id="lb-video" src="" controls playsinline style="display:none;max-height:85vh;max-width:90vw;border-radius:2px;outline:none;"></video>
       </div>
       <div class="lightbox-bar">
         <button class="lb-btn" id="lb-prev">← Anterior</button>
@@ -2406,11 +2430,17 @@
       // ══════════════════════════════════════════
       (function () {
 
+        // ── Helper para detectar video ──
+        function isVideo(src) {
+          return typeof src === 'string' && src.toLowerCase().endsWith('.mp4');
+        }
+
         // ── Definición de proyectos y sus imágenes (ordenadas y mezcladas) ──
         const projects = {
           pipelinebooks: {
             name: 'PipelineBooks',
             images: [
+              './src/pipeline_srecord.mp4',
               './src/pipelinebooks-screensho1.png',
               './src/pipelinebooks-screensho2.png',
               './src/pipelinebooks-screensho3.png',
@@ -2479,7 +2509,7 @@
           const track = document.getElementById('track-' + key);
           const dotsEl = document.getElementById('dots-' + key);
           const counter = document.getElementById('counter-' + key);
-          const wrap = track.closest('.slideshow-wrap');
+          const wrap = track ? track.closest('.slideshow-wrap') : null;
 
           if (!track) return;
 
@@ -2489,15 +2519,37 @@
           proj.images.forEach((src, i) => {
             const slide = document.createElement('div');
             slide.className = 'slide-item';
-            const img = document.createElement('img');
-            img.src = src;
-            img.alt = proj.name + ' — captura ' + (i + 1);
-            img.loading = i === 0 ? 'eager' : 'lazy';
-            img.style.width = '100%';
-            img.style.height = '100%';
-            img.style.objectFit = 'cover';
-            img.style.display = 'block';
-            slide.appendChild(img);
+
+            if (isVideo(src)) {
+              const video = document.createElement('video');
+              video.src = src;
+              video.muted = true;
+              video.playsInline = true;
+              video.autoplay = (i === 0);
+              video.setAttribute('playsinline', '');
+              video.setAttribute('muted', '');
+              video.style.width = '100%';
+              video.style.height = '100%';
+              video.style.objectFit = 'cover';
+              video.style.display = 'block';
+
+              // Una vez finaliza el video, avanza al siguiente slide y activa el efecto carrusel
+              video.addEventListener('ended', () => {
+                goTo(key, state[key].current + 1);
+              });
+
+              slide.appendChild(video);
+            } else {
+              const img = document.createElement('img');
+              img.src = src;
+              img.alt = proj.name + ' — captura ' + (i + 1);
+              img.loading = i === 0 ? 'eager' : 'lazy';
+              img.style.width = '100%';
+              img.style.height = '100%';
+              img.style.objectFit = 'cover';
+              img.style.display = 'block';
+              slide.appendChild(img);
+            }
             track.appendChild(slide);
           });
 
@@ -2515,10 +2567,12 @@
           updateCounter(key);
 
           // Click en el wrap → abrir lightbox
-          wrap.addEventListener('click', () => openLightbox(key, state[key].current));
+          if (wrap) {
+            wrap.addEventListener('click', () => openLightbox(key, state[key].current));
+          }
 
-          // Auto-avance cada 4s
-          startAuto(key);
+          // Iniciar estado del slide actual (video o carrusel de imágenes)
+          handleSlideMedia(key);
         });
 
         function goTo(key, idx) {
@@ -2531,6 +2585,7 @@
             d.classList.toggle('active', i === s.current);
           });
           updateCounter(key);
+          handleSlideMedia(key);
         }
 
         function updateCounter(key) {
@@ -2539,11 +2594,44 @@
           if (counter) counter.textContent = (s.current + 1) + ' / ' + s.images.length;
         }
 
+        function handleSlideMedia(key) {
+          const s = state[key];
+          const track = document.getElementById('track-' + key);
+          if (!track) return;
+          const currentSrc = s.images[s.current];
+          const currentIsVid = isVideo(currentSrc);
+
+          const slides = track.querySelectorAll('.slide-item');
+          slides.forEach((slide, i) => {
+            const vid = slide.querySelector('video');
+            if (vid) {
+              if (i === s.current) {
+                vid.currentTime = 0;
+                vid.play().catch(() => {});
+              } else {
+                vid.pause();
+              }
+            }
+          });
+
+          // Si es video, pausar el temporizador del carrusel para dejar que el video termine
+          if (currentIsVid) {
+            if (s.autoTimer) {
+              clearInterval(s.autoTimer);
+              s.autoTimer = null;
+            }
+          } else {
+            // Si es imagen, arrancar auto-avance de 4 segundos
+            startAuto(key);
+          }
+        }
+
         function startAuto(key) {
           const s = state[key];
           if (s.autoTimer) clearInterval(s.autoTimer);
           s.autoTimer = setInterval(() => {
-            if (!document.getElementById('lightbox').classList.contains('active')) {
+            const lb = document.getElementById('lightbox');
+            if (!lb || !lb.classList.contains('active')) {
               goTo(key, s.current + 1);
             }
           }, 4000);
@@ -2552,6 +2640,7 @@
         // ── Lightbox ──
         const lb = document.getElementById('lightbox');
         const lbImg = document.getElementById('lb-img');
+        const lbVideo = document.getElementById('lb-video');
         const lbCounter = document.getElementById('lb-counter');
         const lbProject = document.getElementById('lb-project');
         const lbClose = document.getElementById('lb-close');
@@ -2564,6 +2653,17 @@
         function openLightbox(key, idx) {
           lbKey = key;
           lbIdx = idx;
+
+          // Pausar cualquier video o temporizador de fondo
+          const track = document.getElementById('track-' + key);
+          if (track) {
+            track.querySelectorAll('video').forEach(v => v.pause());
+          }
+          if (state[key] && state[key].autoTimer) {
+            clearInterval(state[key].autoTimer);
+            state[key].autoTimer = null;
+          }
+
           renderLightbox();
           lb.classList.add('active');
           document.body.style.overflow = 'hidden';
@@ -2572,15 +2672,36 @@
         function closeLightbox() {
           lb.classList.remove('active');
           document.body.style.overflow = '';
+          if (lbVideo) {
+            lbVideo.pause();
+            lbVideo.src = '';
+          }
+          if (lbKey) {
+            handleSlideMedia(lbKey);
+          }
           lbKey = null;
         }
 
         function renderLightbox() {
           const s = state[lbKey];
-          lbImg.src = s.images[lbIdx];
-          lbImg.alt = s.name + ' — captura ' + (lbIdx + 1);
+          const item = s.images[lbIdx];
+          const isVid = isVideo(item);
           lbCounter.textContent = (lbIdx + 1) + ' / ' + s.images.length;
           lbProject.textContent = s.name;
+
+          if (isVid) {
+            lbImg.style.display = 'none';
+            lbVideo.style.display = 'block';
+            lbVideo.src = item;
+            lbVideo.currentTime = 0;
+            lbVideo.play().catch(() => {});
+          } else {
+            lbVideo.pause();
+            lbVideo.style.display = 'none';
+            lbImg.style.display = 'block';
+            lbImg.src = item;
+            lbImg.alt = s.name + ' — captura ' + (lbIdx + 1);
+          }
         }
 
         lbClose.addEventListener('click', closeLightbox);
