@@ -2067,52 +2067,155 @@
           </div>
         </div>
 
-        <!-- Dopamine AI -->
-        <div class="hobby-item">
+        <!-- DopamineFM -->
+        <div class="hobby-item" id="dopaminefm">
           <div class="hobby-header">
             <div>
-              <div class="hobby-name">Dopamine AI</div>
-              <div class="hobby-sub" style="display:flex;align-items:center;gap:8px;">
-                IA músical &nbsp;&middot;&nbsp; Local
-                <span class="exp-badge badge-current" style="margin-top:0;font-size:9px;padding:2px 6px;">En
-                  desarrollo</span>
+              <div class="hobby-name">DopamineFM</div>
+              <div class="hobby-sub" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                Radio Virtual Multiplexada &nbsp;&middot;&nbsp; Pipeline Hi-Fi &amp; Deduplicación Acústica &nbsp;&middot;&nbsp; Local-first &amp; Web API
+                <span class="exp-badge badge-current" style="margin-top:0;font-size:9px;padding:2px 6px;">En desarrollo activo</span>
               </div>
             </div>
             <div class="hobby-langs">
               <div class="hlang-row">
                 <span class="hlang-name">Python</span>
                 <div class="hlang-bar-bg">
-                  <div class="hlang-fill" style="width:85.4%;background:#4ecba5;"></div>
+                  <div class="hlang-fill" style="width:96.1%;background:#4ecba5;"></div>
                 </div>
-                <span class="hlang-pct">85.4%</span>
-              </div>
-              <div class="hlang-row">
-                <span class="hlang-name">Rust</span>
-                <div class="hlang-bar-bg">
-                  <div class="hlang-fill" style="width:14%;background:#D85A30;"></div>
-                </div>
-                <span class="hlang-pct">14.0%</span>
+                <span class="hlang-pct">96.1%</span>
               </div>
               <div class="hlang-row">
                 <span class="hlang-name">Shell</span>
                 <div class="hlang-bar-bg">
-                  <div class="hlang-fill" style="width:6%;background:#c8b89a;"></div>
+                  <div class="hlang-fill" style="width:2.5%;background:#c8b89a;"></div>
                 </div>
-                <span class="hlang-pct">0.6%</span>
+                <span class="hlang-pct">2.5%</span>
+              </div>
+              <div class="hlang-row">
+                <span class="hlang-name">Lua</span>
+                <div class="hlang-bar-bg">
+                  <div class="hlang-fill" style="width:1.4%;background:#51a0d5;"></div>
+                </div>
+                <span class="hlang-pct">1.4%</span>
               </div>
             </div>
           </div>
-          <p class="hobby-desc">
-            IA que clasifica automáticamente canciones en listas almacenadas de forma local, sin depender de servicios
-            externos. El objetivo a largo plazo es mezclar música en tiempo real a partir de los patrones de
-            clasificación, creando transiciones fluidas entre tracks de forma autónoma.
-          </p>
+
+          <div style="display:flex;gap:1.5rem;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;">
+            <div style="flex:0 0 130px;max-width:130px;border-radius:6px;overflow:hidden;border:1px solid var(--border-mid);box-shadow:0 8px 24px rgba(0,0,0,0.35);">
+              <img src="./src/dopaminefm-cover.jpg" alt="DopamineFM Cover Art" style="width:100%;height:auto;display:block;aspect-ratio:1/1;object-fit:cover;">
+            </div>
+            <div style="flex:1;min-width:280px;">
+              <p class="hobby-desc" style="margin-bottom:0;">
+                Evolución del concepto original hacia una plataforma integral de radio virtual multiplexada, pipeline de ingesta musical de alta fidelidad (FLAC, M4A, MP3, WAV) y motor de deduplicación acústica de precisión para bibliotecas locales. Transforma la colección en un dial permanente de <strong>12 emisoras temáticas</strong> con streaming HTTP continuo (MP3 320 kbps CBR, framing ICY dinámico y carátulas en tiempo real), automatización de DJs circadianos con modulación horaria de tempo y separación mínima estricta entre pistas de un mismo artista (&ge; 3 tracks).
+              </p>
+            </div>
+          </div>
+
+          <!-- Modulos tecnicos en Grid -->
+          <div style="margin: 1.25rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+            <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: 4px; padding: 1.25rem; transition: border-color 0.2s;">
+              <div style="font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; display: flex; align-items: center; gap: 10px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="color:var(--teal);flex-shrink:0;">
+                  <circle cx="12" cy="12" r="2"></circle>
+                  <path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"></path>
+                </svg>
+                <span>Streaming ICY &amp; Dial 12 Emisoras (FastAPI)</span>
+              </div>
+              <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+                Servidor de transmisión en tiempo real montado sobre <strong>FastAPI &amp; Uvicorn</strong> con framing <code>metaint=16384</code> (ICY metadata) en MP3 320 kbps CBR y conmutación continua sin interrupciones. Incorpora DJ circadiano con modulación horaria de BPM, API REST para control remoto y sincronización de carátulas dinámicas con <strong>VLC</strong> vía scripts Lua y CLI interactivo (<code>radio.sh</code>).
+              </p>
+            </div>
+
+            <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: 4px; padding: 1.25rem; transition: border-color 0.2s;">
+              <div style="font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; display: flex; align-items: center; gap: 10px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent);flex-shrink:0;">
+                  <path d="M2 10v3m4-6v9m4-11v13m4-15v17m4-13v9m4-7v5"></path>
+                </svg>
+                <span>Deduplicación Acústica No Destructiva (FFmpeg &amp; Chromaprint)</span>
+              </div>
+              <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+                Pipeline en 5 fases diseñado para preservar la pista con mayor calidad: verificación binaria SHA-256 exacta, decodificación PCM de audio puro sin tags para cálculo de hash MD5 vía <strong>FFmpeg</strong>, análisis comparativo intra-álbum y cross-edition, y huellas acústicas generadas con <strong>libchromaprint / AcoustID</strong> (<code>pyacoustid</code>).
+              </p>
+            </div>
+
+            <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: 4px; padding: 1.25rem; transition: border-color 0.2s;">
+              <div style="font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; display: flex; align-items: center; gap: 10px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="color:var(--blue);flex-shrink:0;">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+                <span>Clasificación Heurística &amp; Detección Cultural Hispana</span>
+              </div>
+              <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+                Pipeline híbrido de asignación de emisoras: inspección de metadatos nativos (Vorbis, ID3, MP4) con <strong>Mutagen</strong>, coincidencia léxica difusa de alta velocidad con <strong>RapidFuzz</strong> y consulta adaptativa a las APIs REST de <strong>MusicBrainz</strong> y <strong>Wikipedia</strong> para determinar el origen de artistas y segregar deterministamente subemisoras en español (<code>rock-espanol</code>, <code>pop-espanol</code>, <code>urbano-espanol</code>).
+              </p>
+            </div>
+
+            <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: 4px; padding: 1.25rem; transition: border-color 0.2s;">
+              <div style="font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; display: flex; align-items: center; gap: 10px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="color:var(--teal);flex-shrink:0;">
+                  <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                  <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                  <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                </svg>
+                <span>Ingesta Reactiva &amp; Arquitectura DDD (SQLite WAL)</span>
+              </div>
+              <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+                Monitoreo reactivo del sistema de archivos con <strong>Watchdog</strong> para procesar e indexar pistas entrantes (<code>new_tracks</code>) en tiempo real. Persistencia optimizada en <strong>SQLite</strong> con modo WAL y transacciones concurrentes seguras. Arquitectura modular desacoplada guiada por <strong>Domain-Driven Design (DDD)</strong> con suite de tests exhaustiva en <strong>Pytest</strong> (100% aprobada).
+              </p>
+            </div>
+          </div>
+
+          <!-- Dial preview badges -->
+          <div style="margin: 0.85rem 0 1.25rem; padding: 0.75rem 1rem; background: var(--bg-raised); border: 1px solid var(--border); border-radius: 4px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+            <span style="font-family: var(--font-mono); font-size: 10px; color: var(--accent); letter-spacing: 0.05em; text-transform: uppercase; margin-right: 4px; display: flex; align-items: center; gap: 5px;">
+              <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 6px var(--teal);"></span>
+              12 Emisoras en el Dial:
+            </span>
+            <span style="font-family:var(--font-mono);font-size:10px;padding:2px 7px;background:var(--bg-surface);border:1px solid var(--border);border-radius:2px;color:var(--text-secondary);">98.5 Dopamine Club</span>
+            <span style="font-family:var(--font-mono);font-size:10px;padding:2px 7px;background:var(--bg-surface);border:1px solid var(--border);border-radius:2px;color:var(--text-secondary);">106.5 Dance Sessions</span>
+            <span style="font-family:var(--font-mono);font-size:10px;padding:2px 7px;background:var(--bg-surface);border:1px solid var(--border);border-radius:2px;color:var(--text-secondary);">101.1 Anthem Rock</span>
+            <span style="font-family:var(--font-mono);font-size:10px;padding:2px 7px;background:var(--bg-surface);border:1px solid var(--border);border-radius:2px;color:var(--text-secondary);">95.5 Rockola Hispana</span>
+            <span style="font-family:var(--font-mono);font-size:10px;padding:2px 7px;background:var(--bg-surface);border:1px solid var(--border);border-radius:2px;color:var(--text-secondary);">97.3 mirrorSide</span>
+            <span style="font-family:var(--font-mono);font-size:10px;padding:2px 7px;background:var(--bg-surface);border:1px solid var(--border);border-radius:2px;color:var(--text-secondary);">88.5 Melancholia Waves</span>
+            <span style="font-family:var(--font-mono);font-size:10px;padding:2px 7px;background:var(--bg-surface);border:1px solid var(--border);border-radius:2px;color:var(--text-secondary);">104.3 Solaris Pop</span>
+            <span style="font-family:var(--font-mono);font-size:10px;padding:2px 7px;background:var(--bg-surface);border:1px solid var(--border);border-radius:2px;color:var(--text-secondary);">102.7 Pop Latino</span>
+            <span style="font-family:var(--font-mono);font-size:10px;padding:2px 7px;background:var(--bg-surface);border:1px solid var(--border);border-radius:2px;color:var(--text-secondary);">93.7 Beat Urbano</span>
+            <span style="font-family:var(--font-mono);font-size:10px;padding:2px 7px;background:var(--bg-surface);border:1px solid var(--border);border-radius:2px;color:var(--text-secondary);">91.5 Beat Hispano</span>
+            <span style="font-family:var(--font-mono);font-size:10px;padding:2px 7px;background:var(--bg-surface);border:1px solid var(--border);border-radius:2px;color:var(--text-secondary);">89.1 Cinemática &amp; Score</span>
+            <span style="font-family:var(--font-mono);font-size:10px;padding:2px 7px;background:var(--bg-surface);border:1px solid var(--border);border-radius:2px;color:var(--text-secondary);">90.9 All-Waves</span>
+          </div>
+
           <div class="tech-row">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">Rust</span>
-            <span class="tech-tag">Clasificación de audio</span>
-            <span class="tech-tag">Local-first</span>
-            <span class="tech-tag">Tiempo real</span>
+            <span class="tech-tag">Python 3.10+</span>
+            <span class="tech-tag">FastAPI</span>
+            <span class="tech-tag">Uvicorn</span>
+            <span class="tech-tag">FFmpeg</span>
+            <span class="tech-tag">Chromaprint / AcoustID</span>
+            <span class="tech-tag">Streaming ICY (HTTP 320 kbps)</span>
+            <span class="tech-tag">MusicBrainz REST API</span>
+            <span class="tech-tag">Wikipedia API</span>
+            <span class="tech-tag">Mutagen</span>
+            <span class="tech-tag">RapidFuzz</span>
+            <span class="tech-tag">SQLite (WAL)</span>
+            <span class="tech-tag">Watchdog</span>
+            <span class="tech-tag">VLC Lua Scripts</span>
+            <span class="tech-tag">Domain-Driven Design (DDD)</span>
+            <span class="tech-tag">Pytest (33 tests)</span>
+            <span class="tech-tag">Local-First</span>
+          </div>
+          <div style="margin-top:12px;">
+            <a href="https://github.com/isgaar/dopaminefm" target="_blank" class="proj-github-link">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+              </svg>
+              github.com/isgaar/dopaminefm
+            </a>
           </div>
         </div>
 
