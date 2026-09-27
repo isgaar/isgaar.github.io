@@ -1,0 +1,49 @@
+/* ==========================================================================
+   VARIABLES & DESIGN TOKENS
+   Paleta Lauren Waller: Crema (#EDE9C7 / #EBE8C5) sobre Negro Cálido (#181816)
+   ========================================================================== */
+
+:root {
+  --bg: #181816;
+  --bg-surface: #20201c;
+  --bg-raised: #282823;
+  --border: rgba(237, 233, 199, 0.08);
+  --border-mid: rgba(237, 233, 199, 0.16);
+  --accent: #ede9c7;
+  --accent-dim: rgba(237, 233, 199, 0.12);
+  --accent-border: rgba(237, 233, 199, 0.3);
+  --accent-secondary: #ebe8c5;
+  --teal: #52cba7;
+  --teal-dim: rgba(82, 203, 167, 0.12);
+  --teal-border: rgba(82, 203, 167, 0.3);
+  --blue: #7bb5e6;
+  --blue-dim: rgba(123, 181, 230, 0.12);
+  --text-primary: #ede9c7;
+  --text-secondary: #b7b3a2;
+  --text-muted: #7d796c;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-ui: 'Syne', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --page-max: 1800px;
+  --page-pad: clamp(1.25rem, 4vw, 5.5rem);
+}
+
+[data-theme="light"] {
+  --bg: #f6f4ee;
+  --bg-surface: #ebe8df;
+  --bg-raised: #ded9cd;
+  --border: rgba(24, 24, 22, 0.08);
+  --border-mid: rgba(24, 24, 22, 0.15);
+  --accent: #786241;
+  --accent-dim: rgba(120, 98, 65, 0.12);
+  --accent-border: rgba(120, 98, 65, 0.35);
+  --accent-secondary: #8c734e;
+  --teal: #1f7d61;
+  --teal-dim: rgba(31, 125, 97, 0.1);
+  --teal-border: rgba(31, 125, 97, 0.32);
+  --blue: #3b749e;
+  --blue-dim: rgba(59, 116, 158, 0.12);
+  --text-primary: #181816;
+  --text-secondary: #4a473f;
+  --text-muted: #848074;
+}

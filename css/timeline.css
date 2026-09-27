@@ -1,0 +1,150 @@
+/* ==========================================================================
+   TIMELINE (TRAYECTORIA) & CERTIFICACIONES
+   ========================================================================== */
+
+.timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 3rem;
+  padding: 2.25rem 0;
+  border-bottom: 1px solid var(--border);
+  transition: opacity 0.2s;
+}
+
+.timeline-item:first-child {
+  padding-top: 0;
+}
+
+.timeline-item:last-child {
+  border-bottom: none;
+}
+
+.timeline-meta {
+  padding-top: 2px;
+}
+
+.timeline-period {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  line-height: 1.6;
+}
+
+.timeline-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.timeline-role {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+
+.timeline-desc {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.timeline-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  margin-top: 10px;
+  transition: color 0.2s;
+}
+
+.timeline-link:hover {
+  text-decoration: underline;
+}
+
+/* ── Certifications Sub-block in Timeline ── */
+.cert-subblock {
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px dashed var(--border-mid);
+}
+
+.cert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.cert-item {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: center;
+}
+
+.cert-item:last-child {
+  border-bottom: none;
+}
+
+.cert-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+}
+
+.cert-org {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.cert-year {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.cert-link {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  color: var(--text-muted);
+  text-decoration: none;
+  vertical-align: middle;
+  opacity: 0.6;
+  transition: color 0.2s, opacity 0.2s;
+}
+
+.cert-link:hover {
+  color: var(--accent);
+  opacity: 1;
+}
+
+@media (max-width: 720px) {
+  .timeline-item {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}

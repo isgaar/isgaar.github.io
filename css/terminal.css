@@ -1,0 +1,158 @@
+/* ==========================================================================
+   FASTFETCH TERMINAL SIMULATOR
+   ========================================================================== */
+
+.terminal-section-wrap {
+  margin-top: 2.5rem;
+}
+
+.terminal-window {
+  background: #11110f;
+  border: 1px solid var(--border-mid);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  font-family: var(--font-mono);
+}
+
+.terminal-titlebar {
+  background: #1a1a17;
+  border-bottom: 1px solid var(--border);
+  padding: 9px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.term-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.term-dot-red {
+  background: #ff5f56;
+}
+
+.term-dot-amber {
+  background: #ffbd2e;
+}
+
+.term-dot-green {
+  background: #27c93f;
+}
+
+.terminal-title-text {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+
+.terminal-content-area {
+  padding: 1.5rem;
+  min-height: 260px;
+  color: var(--accent);
+  font-size: 12.5px;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+.terminal-cmd-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+  font-weight: 500;
+}
+
+.term-prompt-user {
+  color: var(--teal);
+}
+
+.term-prompt-host {
+  color: var(--accent);
+}
+
+.term-prompt-path {
+  color: var(--blue);
+}
+
+.term-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  background: var(--accent);
+  vertical-align: middle;
+  animation: cursorBlink 1s infinite;
+  margin-left: 2px;
+}
+
+@keyframes cursorBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* ── Fastfetch Output: 2 Column Layout (ASCII + Specs) ── */
+.fastfetch-output {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2.25rem;
+  align-items: start;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.fastfetch-output.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fastfetch-ascii {
+  color: var(--teal);
+  font-size: 11px;
+  line-height: 1.28;
+  user-select: none;
+  white-space: pre;
+}
+
+.fastfetch-specs {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 12px;
+}
+
+.ff-spec-row {
+  display: flex;
+  gap: 12px;
+  line-height: 1.55;
+}
+
+.ff-spec-label {
+  color: var(--teal);
+  font-weight: 500;
+  min-width: 74px;
+}
+
+.ff-spec-value {
+  color: var(--text-primary);
+}
+
+.ff-spec-value strong {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+@media (max-width: 960px) {
+  .fastfetch-output {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
