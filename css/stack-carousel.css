@@ -1,0 +1,72 @@
+/* ==========================================================================
+   STACK CAROUSEL — Carrusel infinito de tecnologías
+   ========================================================================== */
+
+.stack-carousel-heading {
+  margin-bottom: 1.5rem;
+}
+
+.stack-carousel {
+  padding: 2.75rem 0;
+}
+
+.stack-carousel-overflow-wrap {
+  overflow: hidden;
+  margin: 0 calc(-1 * var(--page-pad));
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+}
+
+.stack-carousel-track {
+  display: flex;
+  width: max-content;
+  gap: 3.5rem;
+}
+
+.stack-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.stack-item i {
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--text-muted);
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+/* Devicons colored override — mantiene el color de marca */
+.stack-item i.colored {
+  color: inherit;
+}
+
+.stack-carousel:hover .stack-item:hover i {
+  color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.stack-item span {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+

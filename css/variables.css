@@ -22,7 +22,7 @@
   --text-secondary: #b7b3a2;
   --text-muted: #7d796c;
   --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-ui: 'Syne', sans-serif;
+  --font-ui:      'Poppins', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --page-max: 1800px;
   --page-pad: clamp(1.25rem, 4vw, 5.5rem);

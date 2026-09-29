@@ -128,6 +128,18 @@
   margin-bottom: 3px;
 }
 
+.cert-name a.cert-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cert-name a.cert-title-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-style: dotted;
+  color: var(--accent);
+}
+
 .cert-org {
   font-family: var(--font-mono);
   font-size: 10.5px;

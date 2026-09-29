@@ -121,3 +121,37 @@ Any narrative text, project description, or case-study transcription written for
    - Store project media in a dedicated `src/<project-name>/` directory.
 4. **Git Hygiene**:
    - Keep root clean. No temporary scratch files, test scripts, or unused bundles in production tracking.
+
+---
+
+# UI COMPONENT CONVENTIONS
+
+## Section Headings
+
+- All section-level labels (e.g., "Proyectos destacados", "Stack", "Certificaciones", "Trayectoria") **must** use the `.section-label` CSS class.
+- **Never** use `.side-heading` with a hardcoded `//` prefix for section titles. The `//` prefix is reserved for sidebar sub-blocks only.
+- `.section-label` automatically renders: monospace font, muted uppercase text, wide letter-spacing, and a full-width decorative `::after` line — consistent across all sections.
+- Example:
+  ```html
+  <!-- Correcto -->
+  <div class="section-label">Stack</div>
+
+  <!-- Incorrecto — no usar -->
+  <div class="side-heading">// Stack</div>
+  ```
+
+## Section Separators
+
+- Use **one** `border-bottom: 1px solid var(--border)` on the **outgoing** section to mark the boundary. Never add `border-top` to the incoming section when its predecessor already carries `border-bottom` — this creates a double-line artifact.
+- The `section-label::after` pseudo-element is a horizontal rule **within** a section and does **not** replace the section's own border.
+- `margin-bottom` on a section should be `0` when the next sibling has its own vertical padding, to avoid compound empty space between sections.
+- Pattern:
+  ```css
+  /* ✓ Correcto — un solo borde por límite */
+  .hero-container { border-bottom: 1px solid var(--border); margin-bottom: 0; }
+  .stack-carousel { /* sin border-top */ padding: 2.75rem 0; }
+
+  /* ✗ Incorrecto — doble borde */
+  .hero-container { border-bottom: 1px solid var(--border); }
+  .stack-carousel { border-top: 1px solid var(--border); }
+  ```

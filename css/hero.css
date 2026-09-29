@@ -6,7 +6,7 @@
   isolation: isolate;
   padding-bottom: 4.5rem;
   border-bottom: 1px solid var(--border);
-  margin-bottom: 5rem;
+  margin-bottom: 0;
   animation: fadeUp 0.8s ease both;
   overflow: hidden;
   position: relative;
@@ -197,6 +197,22 @@
   color: var(--accent);
   background: var(--accent-dim);
   transform: translateY(-2px);
+}
+
+/* ── Overrides modo claro ── */
+[data-theme="light"] .btn-secondary {
+  border-color: rgba(24, 24, 22, 0.35);
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+[data-theme="light"] .btn-primary {
+  color: #f6f4ee;
 }
 
 /* ── Persistent Sidebar Card ── */
