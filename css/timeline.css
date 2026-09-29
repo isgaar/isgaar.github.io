@@ -96,9 +96,25 @@
   padding: 1.25rem 0;
   border-bottom: 1px solid var(--border);
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 2rem;
+  grid-template-columns: 44px 1fr auto;
+  gap: 1rem;
+  align-items: start;
+}
+
+.cert-badge-wrap {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: flex;
   align-items: center;
+  justify-content: center;
+}
+
+.cert-badge {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 4px;
 }
 
 .cert-item:last-child {
@@ -117,6 +133,14 @@
   font-size: 10.5px;
   color: var(--text-muted);
   letter-spacing: 0.04em;
+}
+
+.cert-desc {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-top: 6px;
+  max-width: 56ch;
 }
 
 .cert-year {
