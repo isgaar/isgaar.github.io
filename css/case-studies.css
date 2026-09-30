@@ -525,3 +525,30 @@
     transition: none !important;
   }
 }
+
+/* ── Light mode: proj-demo-btn & proj-pdf-btn ── */
+[data-theme="light"] .proj-demo-btn,
+[data-theme="light"] .proj-pdf-btn {
+  background: #786241;
+  border-color: #786241;
+  color: #f6f4ee;
+  box-shadow: 0 2px 10px rgba(120, 98, 65, 0.2);
+}
+
+[data-theme="light"] .proj-demo-btn:hover,
+[data-theme="light"] .proj-pdf-btn:hover {
+  background: #5c4c31;
+  border-color: #5c4c31;
+  color: #f6f4ee;
+  box-shadow: 0 4px 14px rgba(120, 98, 65, 0.35);
+  transform: translateY(-1px);
+}
+
+[data-theme="light"] .proj-demo-btn:active,
+[data-theme="light"] .proj-pdf-btn:active {
+  background: #4a3c26;
+  border-color: #4a3c26;
+  color: #f6f4ee;
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(120, 98, 65, 0.25);
+}
