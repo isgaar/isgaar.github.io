@@ -23,17 +23,18 @@
   var btn = document.getElementById('theme-btn');
   var icon = document.getElementById('theme-icon');
   var label = document.getElementById('theme-label');
+  var translate = window.portfolioI18n ? window.portfolioI18n.t : function (value) { return value; };
 
   function applyTheme() {
     if (isDark) {
       document.documentElement.removeAttribute('data-theme');
       if (icon) icon.innerHTML = sunSVG;
-      if (label) label.textContent = 'Claro';
+      if (label) label.textContent = translate('Claro');
       localStorage.setItem('isgaar_theme', 'dark');
     } else {
       document.documentElement.setAttribute('data-theme', 'light');
       if (icon) icon.innerHTML = moonSVG;
-      if (label) label.textContent = 'Oscuro';
+      if (label) label.textContent = translate('Oscuro');
       localStorage.setItem('isgaar_theme', 'light');
     }
   }

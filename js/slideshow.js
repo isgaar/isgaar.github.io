@@ -10,6 +10,7 @@
   };
   const state = {};
   const isVideo = src => src.endsWith('.mp4');
+  const translate = window.portfolioI18n ? window.portfolioI18n.t : value => value;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function render(key) {
     const s = state[key]; if (!s || !s.mounted) return;
@@ -58,7 +59,7 @@
     if (!track || !dots || !counter) return;
     const wrap = track.closest('.slideshow-wrap');
     state[key] = { key, name: wrap.dataset.project, items, track, dots, counter, current: 0, mounted: false, hasRendered: false, timer: null };
-    items.forEach((_, i) => { const dot = document.createElement('button'); dot.className = 'slide-dot'; dot.type = 'button'; dot.setAttribute('aria-label', 'Ver captura ' + (i + 1)); dot.addEventListener('click', e => { e.stopPropagation(); change(key, i); startAuto(key); }); dots.append(dot); });
+    items.forEach((_, i) => { const dot = document.createElement('button'); dot.className = 'slide-dot'; dot.type = 'button'; dot.setAttribute('aria-label', translate('Ver captura') + ' ' + (i + 1)); dot.addEventListener('click', e => { e.stopPropagation(); change(key, i); startAuto(key); }); dots.append(dot); });
     wrap.addEventListener('click', () => openLightbox(key));
   });
   const observer = new IntersectionObserver(entries => entries.forEach(entry => {

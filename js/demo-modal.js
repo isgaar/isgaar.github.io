@@ -8,6 +8,7 @@
   const demoHeading = document.getElementById('demoModalHeading');
   const demoExtLink = document.getElementById('demoModalExternalLink');
   const demoClose = document.getElementById('demoModalClose');
+  const translate = window.portfolioI18n ? window.portfolioI18n.t : value => value;
 
   function openDemo(url, title) {
     if (!demoModal || !demoIframe) return;
@@ -29,7 +30,7 @@
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const url = btn.getAttribute('data-demo-url');
-      const title = btn.getAttribute('data-demo-title') || 'Demo Interactivo';
+      const title = btn.getAttribute('data-demo-title') || translate('Demo Interactivo');
       if (url) openDemo(url, title);
     });
   });
