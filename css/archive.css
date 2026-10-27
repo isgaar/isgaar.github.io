@@ -19,6 +19,8 @@
 .personal-project#linuxtools .slideshow-wrap,
 .personal-project .project-video-frame { clear:both; display:block; width:100%; margin-top:1.5rem; }
 .personal-project#linuxtools .slideshow-wrap { min-height:300px; }
+.personal-project#dopamina .slideshow-wrap { height:auto; min-height:0; aspect-ratio:16 / 10; }
+.personal-project#dopamina .slide-item img { object-fit:contain; background:var(--bg); }
 .sim-project-images { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:1.5rem; overflow:hidden; }
 .sim-project-images img { width:100%; aspect-ratio:16 / 7; object-fit:cover; }
 @media (max-width:720px) { .personal-project-grid { grid-template-columns:1fr; } .personal-project-feature { grid-column:auto; } .sim-project-images { grid-template-columns:1fr; } }
